@@ -2,12 +2,14 @@ FROM node:22.16.0
 
 WORKDIR /main
 
-COPY package*.json ./
+RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
-RUN npm install
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm","start" ]
+CMD ["pnpm","start"]

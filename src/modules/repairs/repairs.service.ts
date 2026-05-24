@@ -2,10 +2,11 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Repair } from './entities/repair.entity';
+import { RepairComment } from './entities/repair-comment.entity';
 import { MailQueueService } from '../mail/mail-queue_email.service';
 import { RepairStatus } from './enum/repairs.enum';
 import { PaginatedRepairsDto, RepairSearchQueryDto } from './dto/paginate.rapair.dto';
-import { ICreateRepair, IRepairResponse, IUpdateRepairStatus } from './interface/repairs.interface';
+import { ICreateRepair, IRepairResponse, IRepairHistoryResponse, IUpdateRepairStatus } from './interface/repairs.interface';
 
 @Injectable()
 export class RepairsService {
@@ -14,6 +15,8 @@ export class RepairsService {
   constructor(
     @InjectRepository(Repair)
     private readonly repairRepository: Repository<Repair>,
+    @InjectRepository(RepairComment)
+    private readonly repairCommentRepository: Repository<RepairComment>,
     private readonly mailQueueService: MailQueueService,
   ) {}
 
@@ -91,7 +94,7 @@ export class RepairsService {
     return repair;
   }
 
-  async updateRepairStatus(id: string, dto: IUpdateRepairStatus): Promise<Repair> {
+  async updateRepairStatus(id: string, dto: IUpdateRepairStatus, adminId: string): Promise<Repair> {
     const repair = await this.getRepairById(id);
 
     if (repair.status === RepairStatus.COMPLETED || repair.status === RepairStatus.CANCELLED) {
@@ -106,6 +109,14 @@ export class RepairsService {
     const updated = await this.repairRepository.save(repair);
     this.logger.log(`Repair ${id} status updated to ${dto.status}`);
 
+    const commentText = dto.adminNotes || `Estado actualizado a ${dto.status}`;
+    await this.saveComment({
+      repairId: id,
+      adminId,
+      comment: commentText,
+      statusSnapshot: dto.status,
+    });
+
     await this.mailQueueService.queueRepairStatusUpdate(
       updated.email,
       updated.fullName,
@@ -115,5 +126,37 @@ export class RepairsService {
     );
 
     return updated;
+  }
+
+  private async saveComment(data: {
+    repairId: string;
+    adminId: string;
+    comment: string;
+    statusSnapshot: RepairStatus;
+  }): Promise<RepairComment> {
+    const comment = this.repairCommentRepository.create(data);
+    return this.repairCommentRepository.save(comment);
+  }
+
+  async getRepairHistory(repairId: string): Promise<IRepairHistoryResponse> {
+    const repair = await this.getRepairById(repairId);
+
+    const comments = await this.repairCommentRepository.find({
+      where: { repairId },
+      order: { createdAt: 'ASC' },
+      relations: ['admin'],
+    });
+
+    return {
+      repair,
+      comments: comments.map((c) => ({
+        id: c.id,
+        adminId: c.adminId,
+        adminName: c.admin?.name ?? 'Admin',
+        comment: c.comment,
+        statusSnapshot: c.statusSnapshot,
+        createdAt: c.createdAt,
+      })),
+    };
   }
 }

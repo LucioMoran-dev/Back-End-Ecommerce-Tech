@@ -95,5 +95,6 @@ export interface IMyPaymentResponse {
   paymentTypeId: string;
   paymentMethodId: string;
   dateApproved: Date | null;
+  orderId: string;
   createdAt: Date;
 }

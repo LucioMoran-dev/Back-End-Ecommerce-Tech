@@ -42,3 +42,24 @@ export interface IRepairResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ICreateRepairComment {
+  repairId: string;
+  adminId: string;
+  comment: string;
+  statusSnapshot: RepairStatus;
+}
+
+export interface IRepairCommentResponse {
+  id: string;
+  adminId: string;
+  adminName: string;
+  comment: string;
+  statusSnapshot: RepairStatus;
+  createdAt: Date;
+}
+
+export interface IRepairHistoryResponse {
+  repair: IRepairResponse;
+  comments: IRepairCommentResponse[];
+}

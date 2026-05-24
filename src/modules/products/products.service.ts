@@ -1,4 +1,13 @@
-import { Injectable, NotFoundException, BadRequestException, Inject, forwardRef, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  Inject,
+  forwardRef,
+  Logger,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In, DataSource, ILike } from 'typeorm';
 import { Product } from './entities/products.entity';
@@ -22,6 +31,7 @@ import {
 import { EMPTY, Observable } from 'rxjs';
 import { IPaginatedResult } from '../../common/pagination';
 import { DiscountsService } from '../discounts/discounts.service';
+import { DiscountType } from '../discounts/enums/discount.enums';
 
 @Injectable()
 export class ProductsService {
@@ -58,9 +68,25 @@ export class ProductsService {
 
   async getProducts(searchQuery: ProductsSearchQueryDto): Promise<IPaginatedResult<IProductResponse>> {
     const {
-      name, basePrice, minPrice, maxPrice, brand, categoryId, color, featured,
-      ram, storage, processor, vram, screen_size, resolution, refresh_rate, connectivity, condition,
-      inStock, discounted,
+      name,
+      basePrice,
+      minPrice,
+      maxPrice,
+      brand,
+      categoryId,
+      color,
+      featured,
+      ram,
+      storage,
+      processor,
+      vram,
+      screen_size,
+      resolution,
+      refresh_rate,
+      connectivity,
+      condition,
+      inStock,
+      discounted,
       ...pagination
     } = searchQuery;
 
@@ -421,7 +447,7 @@ export class ProductsService {
     };
   }
 
-  async getVariantsGroupedByType(productId: string) {
+  async getVariantsGroupedByType(productId: string): Promise<Record<string, ProductVariant[]>> {
     const product = await this.productRepo.findOne({
       where: { id: productId },
       relations: ['variants'],
@@ -502,7 +528,7 @@ export class ProductsService {
     let discountAmount: number;
     let discountPercentage: number | null;
 
-    if (discount.discountType === 'percentage') {
+    if (discount.discountType === DiscountType.PERCENTAGE) {
       discountAmount = Math.round(originalPrice * (Number(discount.value) / 100) * 100) / 100;
       discountPercentage = Number(discount.value);
     } else {
@@ -722,10 +748,7 @@ export class ProductsService {
     }
 
     if (created.length === 0 && updated === 0) {
-      throw new HttpException(
-        'All products are already seeded and up to date',
-        HttpStatus.CONFLICT,
-      );
+      throw new HttpException('All products are already seeded and up to date', HttpStatus.CONFLICT);
     }
 
     return {
