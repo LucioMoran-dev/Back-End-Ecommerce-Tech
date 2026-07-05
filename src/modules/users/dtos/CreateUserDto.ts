@@ -50,9 +50,9 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/, {
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,15}$/, {
     message:
-      'The password must have at least one uppercase letter, one lowercase letter, one number, and one special character. (!@#$%^&*)',
+      'The password must have at least one uppercase letter, one lowercase letter, one number, and one special character.',
   })
   password: string;
 
@@ -62,9 +62,9 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/, {
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,15}$/, {
     message:
-      'The confirmPassword must have at least one uppercase letter, one lowercase letter, one number, and one special character. (!@#$%^&*)',
+      'The confirmPassword must have at least one uppercase letter, one lowercase letter, one number, and one special character.',
   })
   confirmPassword: string;
 }

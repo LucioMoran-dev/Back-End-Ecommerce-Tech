@@ -56,10 +56,11 @@ async function bootstrap(): Promise<void> {
     'http://127.0.0.1:3000',
     'http://localhost:5173',
   ];
+  const prodOriginRegex = process.env.CORS_ORIGIN_REGEX ? new RegExp(process.env.CORS_ORIGIN_REGEX) : undefined;
   const prodOrigins: (string | RegExp)[] = [
-    /^https:\/\/world-assembly-technology[^.]*\.vercel\.app$/,
+    prodOriginRegex,
+    process.env.FRONTEND_CLOUD_URL,
     process.env.BACKEND_URL,
-    // Error de seguridad tira a la url
   ].filter((origin): origin is string | RegExp => Boolean(origin));
   const isProduction = process.env.NODE_ENV === 'production';
   const corsOrigins = process.env.CORS_ORIGINS
