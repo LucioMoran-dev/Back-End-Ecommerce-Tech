@@ -56,9 +56,9 @@ export class UsersService {
   ) {}
 
   async getUsers(searchQuery: UserSearchQueryDto): Promise<IPaginatedResult<Users>> {
-    const { username, email, ...pagination } = searchQuery;
+    const { name, username, email, ...pagination } = searchQuery;
 
-    if (!username && !email) {
+    if (!name && !username && !email) {
       return await paginate(this.usersRepository, pagination, {
         order: { createdAt: 'DESC' },
         withDeleted: true,
@@ -83,6 +83,12 @@ export class UsersService {
     queryBuilder.leftJoinAndSelect('user.role', 'role');
     queryBuilder.leftJoinAndSelect('user.addresses', 'addresses');
     queryBuilder.where('1 = 1');
+
+    if (name) {
+      queryBuilder.andWhere('LOWER(user.name) LIKE LOWER(:name)', {
+        name: `%${name}%`,
+      });
+    }
 
     if (username) {
       queryBuilder.andWhere('LOWER(user.username) LIKE LOWER(:username)', {
