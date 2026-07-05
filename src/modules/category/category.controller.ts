@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Param, Logger, Query, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, Query, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
@@ -17,7 +17,6 @@ import { ResponseCategoryDto } from './mappers/category.mapper';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
-  private readonly logger = new Logger(CategoriesController.name);
 
   @ApiOperation({
     summary: 'Retrieve all users (paginated) with optional search filters',

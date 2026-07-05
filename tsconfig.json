@@ -4,7 +4,7 @@
     "moduleResolution": "node",
     "target": "ES2022",
     "lib": ["ES2022"],
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "6.0",
 
     "outDir": "./dist",
     "rootDir": "./src",
@@ -29,8 +29,8 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "skipLibCheck": true,
 
-    "strict": false,
-    "noImplicitAny": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,

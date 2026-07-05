@@ -20,7 +20,7 @@ import { ReviewService } from './review.service';
 import { Roles, UserRole } from 'src/decorator/role.decorator';
 import { AuthGuard } from 'src/guards/auth.guards';
 import { RoleGuard } from 'src/guards/auth.guards.role';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthRequest } from 'src/common/auths/auth-request.interface';
 import { ReviewMapper } from './mappers/review.mapper';
 import { PaginatedReviewsAdminDto, ReviewSearchQueryDto } from './dto/PaginationQueryDto';

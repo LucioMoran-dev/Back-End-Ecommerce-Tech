@@ -42,7 +42,7 @@ export class Product {
   @Column('int')
   baseStock: number;
 
-  @Column('text', { array: true, default: () => 'ARRAY[]::text[]' })
+  @Column('text', { array: true, default: () => "'{}'" })
   imgUrls: string[];
 
   @Column('json', { nullable: true })

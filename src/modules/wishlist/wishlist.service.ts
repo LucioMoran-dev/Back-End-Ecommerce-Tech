@@ -90,6 +90,10 @@ export class WishlistService {
       relations: ['product', 'product.category'],
     });
 
+    if (!itemWithProduct) {
+      throw new NotFoundException('Wishlist item not found after creation');
+    }
+
     return this.mapWishlistItemToDto(itemWithProduct);
   }
 

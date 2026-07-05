@@ -34,7 +34,7 @@ export class CreatePromoCodeDto {
   @ApiProperty({ example: 30 })
   @IsNumber()
   @Min(0.01)
-  @ValidateIf((o) => o.discountType === DiscountType.PERCENTAGE)
+  @ValidateIf((o: CreatePromoCodeDto) => o.discountType === DiscountType.PERCENTAGE)
   @Max(100)
   value: number;
 
@@ -77,7 +77,6 @@ export class CreatePromoCodeDto {
   @IsArray()
   @IsUUID('4', { each: true })
   applicableCategoryIds?: string[];
-
 }
 
 export class UpdatePromoCodeDto {
@@ -96,7 +95,7 @@ export class UpdatePromoCodeDto {
   @IsOptional()
   @IsNumber()
   @Min(0.01)
-  @ValidateIf((o) => o.discountType === DiscountType.PERCENTAGE)
+  @ValidateIf((o: UpdatePromoCodeDto) => o.discountType === DiscountType.PERCENTAGE)
   @Max(100)
   value?: number;
 

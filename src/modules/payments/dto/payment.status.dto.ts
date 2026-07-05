@@ -20,10 +20,11 @@ export class PaymentStatusDto {
   currency_id: string;
 
   @ApiProperty({
-    description: 'Date when the payment was approved',
+    description: 'Date when the payment was approved (null if not yet approved)',
     example: '2023-01-01T00:00:00Z',
+    nullable: true,
   })
-  date_approved: string;
+  date_approved: string | null;
 }
 
 export class PaymentCompletedDto {
@@ -64,10 +65,11 @@ export class PaymentCompletedDto {
   payment_method_id: string;
 
   @ApiProperty({
-    description: 'Date when the payment was approved',
+    description: 'Date when the payment was approved (null if not yet approved)',
     example: '2023-01-01T00:00:00Z',
+    nullable: true,
   })
-  date_approved: Date;
+  date_approved: Date | null;
 
   @ApiProperty({
     description: 'Payment creation timestamp',

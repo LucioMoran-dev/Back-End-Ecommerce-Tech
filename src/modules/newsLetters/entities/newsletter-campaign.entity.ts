@@ -34,7 +34,7 @@ export class NewsletterCampaign {
   @Column({ type: 'varchar', length: 50, nullable: true })
   discountCode: string | null;
 
-  @Column({ type: 'text', array: true, default: () => 'ARRAY[]::text[]' })
+  @Column({ type: 'text', array: true, default: () => "'{}'" })
   featuredProductIds: string[];
 
   @Column({ type: 'varchar', length: 100 })

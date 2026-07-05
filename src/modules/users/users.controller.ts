@@ -23,7 +23,7 @@ import { Roles, UserRole } from 'src/decorator/role.decorator';
 import { PaginatedUsersDto } from './dtos/paginated-users.dto';
 import { UserSearchQueryDto } from './dtos/PaginationQueryDto';
 import { AuthRequest } from 'src/common/auths/auth-request.interface';
-import { UpdateRoleDto, UserResponseDto, UserResponseWithAdminDto } from './dtos/user-response.dto';
+import { UpdateRoleDto, UserResponseDto } from './dtos/user-response.dto';
 import { UserMapper } from './mappers/user.mapper';
 import { UpdatePasswordDto } from './dtos/UpdatePasswordDto';
 import { UpdateUserDbDto } from './dtos/CreateUserDto';
@@ -60,7 +60,7 @@ export class UsersController {
   @Get()
   async getUsers(@Query() searchQuery: UserSearchQueryDto): Promise<PaginatedUsersDto> {
     const { items, ...meta } = await this.usersService.getUsers(searchQuery);
-    return { ...meta, items: UserMapper.toAdminResponseList(items) as UserResponseWithAdminDto[] };
+    return { ...meta, items: UserMapper.toAdminResponseList(items) };
   }
 
   @Patch('password')
@@ -77,7 +77,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'OK', type: UserResponseDto })
   @UseGuards(AuthGuard)
   async getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponseDto> {
-    return UserMapper.toResponse(await this.usersService.getUserById(id)) as UserResponseDto;
+    return UserMapper.toResponse(await this.usersService.getUserById(id));
   }
 
   @Patch('roles/:id')
@@ -99,7 +99,7 @@ export class UsersController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async updateUser(@Req() req: AuthRequest, @Body() updateData: UpdateUserDbDto): Promise<UserResponseDto> {
     const user = await this.usersService.updateUserService(req.user.sub, updateData);
-    return UserMapper.toResponse(user) as UserResponseDto;
+    return UserMapper.toResponse(user);
   }
 
   @ApiBearerAuth()
@@ -139,7 +139,7 @@ export class UsersController {
   })
   async restoreUser(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponseDto> {
     const user = await this.usersService.restoreUser(id);
-    return UserMapper.toResponse(user) as UserResponseDto;
+    return UserMapper.toResponse(user);
   }
 
   @Post('forgot-password')

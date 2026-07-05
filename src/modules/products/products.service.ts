@@ -9,9 +9,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In, DataSource, ILike } from 'typeorm';
+import { Repository, In, DataSource, ILike, EntityManager } from 'typeorm';
 import { Product } from './entities/products.entity';
 import { ProductVariant } from './entities/products_variant.entity';
+import { File } from '../file/entities/file.entity';
+import { FileService } from '../file/file.service';
 import { CategoriesService } from '../category/category.service';
 import { ProductsSearchQueryDto } from './dto/PaginationQueryDto';
 import { paginate } from 'src/common/pagination/paginate';
@@ -32,6 +34,8 @@ import { EMPTY, Observable } from 'rxjs';
 import { IPaginatedResult } from '../../common/pagination';
 import { DiscountsService } from '../discounts/discounts.service';
 import { DiscountType } from '../discounts/enums/discount.enums';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class ProductsService {
@@ -53,6 +57,12 @@ export class ProductsService {
 
     @Inject(forwardRef(() => DiscountsService))
     private readonly discountsService: DiscountsService,
+
+    @Inject(forwardRef(() => FileService))
+    private readonly fileService: FileService,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   private async mapProductsWithDiscounts(products: Product[]): Promise<IProductResponse[]> {
@@ -66,7 +76,7 @@ export class ProductsService {
     return mapToProductDto(product, discount);
   }
 
-  async getProducts(searchQuery: ProductsSearchQueryDto): Promise<IPaginatedResult<IProductResponse>> {
+  async getProducts(searchQuery: ProductsSearchQueryDto, isAdmin = false): Promise<IPaginatedResult<IProductResponse>> {
     const {
       name,
       basePrice,
@@ -87,6 +97,7 @@ export class ProductsService {
       condition,
       inStock,
       discounted,
+      isActive,
       ...pagination
     } = searchQuery;
 
@@ -104,22 +115,25 @@ export class ProductsService {
 
     const hasFilters: boolean = Boolean(
       name ||
-        basePrice ||
-        minPrice !== undefined ||
-        maxPrice !== undefined ||
-        brand ||
-        categoryId ||
-        featured !== undefined ||
-        variantFilters.length > 0 ||
-        inStock !== undefined ||
-        discounted !== undefined,
+      basePrice ||
+      minPrice !== undefined ||
+      maxPrice !== undefined ||
+      brand ||
+      categoryId ||
+      featured !== undefined ||
+      variantFilters.length > 0 ||
+      inStock !== undefined ||
+      discounted !== undefined ||
+      isActive !== undefined,
     );
+
+    const activeConstraint: boolean | undefined = isAdmin ? isActive : true;
 
     if (!hasFilters) {
       const result = await paginate(this.productRepo, pagination, {
         relations: ['category', 'files', 'variants', 'reviews'],
         order: { createdAt: 'DESC' },
-        where: { isActive: true },
+        where: activeConstraint === undefined ? {} : { isActive: activeConstraint },
       });
 
       return {
@@ -134,7 +148,11 @@ export class ProductsService {
     queryBuilder.leftJoinAndSelect('product.files', 'files');
     queryBuilder.leftJoinAndSelect('product.variants', 'variants');
     queryBuilder.leftJoinAndSelect('product.reviews', 'review');
-    queryBuilder.where('product.isActive = :isActive', { isActive: true });
+    if (activeConstraint === undefined) {
+      queryBuilder.where('1 = 1');
+    } else {
+      queryBuilder.where('product.isActive = :isActive', { isActive: activeConstraint });
+    }
 
     if (name) {
       queryBuilder.andWhere('LOWER(product.name) LIKE LOWER(:name)', {
@@ -168,16 +186,16 @@ export class ProductsService {
     if (inStock === true) {
       queryBuilder.andWhere(
         '((product.hasVariants = false AND product.baseStock > 0) OR ' +
-          '(product.hasVariants = true AND EXISTS (SELECT 1 FROM product_variants pv WHERE pv.product_id = product.id AND pv.is_available = true AND pv.stock > 0)))',
+          '(product.hasVariants = true AND EXISTS (SELECT 1 FROM product_variants pv WHERE pv.product_id = product.id AND pv."isAvailable" = true AND pv.stock > 0)))',
       );
     }
 
     if (discounted === true) {
       queryBuilder.andWhere(
         `EXISTS (SELECT 1 FROM product_discounts pd WHERE pd.product_id = product.id ` +
-          `AND pd.is_active = true ` +
-          `AND (pd.start_date IS NULL OR pd.start_date <= NOW()) ` +
-          `AND (pd.end_date IS NULL OR pd.end_date >= NOW()))`,
+          `AND pd."isActive" = true ` +
+          `AND (pd."startDate" IS NULL OR pd."startDate" <= NOW()) ` +
+          `AND (pd."endDate" IS NULL OR pd."endDate" >= NOW()))`,
       );
     }
 
@@ -198,7 +216,7 @@ export class ProductsService {
       queryBuilder.andWhere(
         '(product.basePrice BETWEEN :basePriceMin AND :basePriceMax OR ' +
           'EXISTS (SELECT 1 FROM product_variants pv WHERE pv.product_id = product.id AND ' +
-          '(product.basePrice + pv.priceModifier) BETWEEN :basePriceMin AND :basePriceMax))',
+          '(product.basePrice + pv."priceModifier") BETWEEN :basePriceMin AND :basePriceMax))',
         {
           basePriceMin: basePrice * 0.9,
           basePriceMax: basePrice * 1.1,
@@ -221,9 +239,10 @@ export class ProductsService {
     };
   }
 
-  async getProductById(id: string): Promise<IProductResponse> {
+  async getProductById(id: string, isAdmin = false): Promise<IProductResponse> {
     const product = await this.productRepo.findOne({
-      where: { id, isActive: true },
+      // Publico: solo productos activos; los admins pueden traer tambien los inactivos.
+      where: isAdmin ? { id } : { id, isActive: true },
       relations: ['category', 'files', 'variants', 'reviews'],
     });
 
@@ -234,60 +253,103 @@ export class ProductsService {
     return await this.mapProductWithDiscount(product);
   }
 
+  private async persistProductWithVariants(
+    manager: EntityManager,
+    dto: ICreateProduct,
+    imgUrls: string[] = [],
+  ): Promise<Product> {
+    const category = await this.categoriesService.findByName(dto.category_name);
+    if (!category) {
+      throw new NotFoundException(`Category '${dto.category_name}' not found`);
+    }
+
+    const existingProduct = await manager.findOne(Product, {
+      where: { name: dto.name },
+    });
+
+    if (existingProduct) {
+      throw new BadRequestException(`A product with the name '${dto.name}' already exists`);
+    }
+
+    if (dto.variants && dto.variants.length > 0) {
+      this.validateVariants(dto.variants);
+    }
+
+    const product = manager.create(Product, {
+      name: dto.name,
+      description: dto.description,
+      brand: dto.brand,
+      model: dto.model,
+      basePrice: dto.basePrice,
+      baseStock: dto.baseStock,
+      imgUrls,
+      featured: dto.featured || false,
+      specifications: dto.specifications || {},
+      hasVariants: dto.hasVariants || false,
+      isActive: true,
+      category,
+    });
+    const savedProduct = await manager.save(product);
+
+    if (dto.variants && dto.variants.length > 0) {
+      const variants = dto.variants.map((variantDto, index) =>
+        manager.create(ProductVariant, {
+          ...variantDto,
+          sortOrder: variantDto.sortOrder ?? index,
+          product: savedProduct,
+        }),
+      );
+
+      await manager.save(ProductVariant, variants);
+
+      savedProduct.hasVariants = true;
+      await manager.save(Product, savedProduct);
+    }
+
+    return savedProduct;
+  }
+
   async createProduct(dto: ICreateProduct): Promise<IProductResponse> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const category = await this.categoriesService.findByName(dto.category_name);
-      if (!category) {
-        throw new NotFoundException(`Category '${dto.category_name}' not found`);
-      }
+      const savedProduct = await this.persistProductWithVariants(queryRunner.manager, dto, dto.imgUrls || []);
 
-      const existingProduct = await queryRunner.manager.findOne(Product, {
-        where: { name: dto.name },
-      });
+      await queryRunner.commitTransaction();
 
-      if (existingProduct) {
-        throw new BadRequestException(`A product with the name '${dto.name}' already exists`);
-      }
+      const fullProduct = await this.getProductWithRelations(savedProduct.id);
+      return await this.mapProductWithDiscount(fullProduct);
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
 
-      if (dto.variants && dto.variants.length > 0) {
-        this.validateVariants(dto.variants);
-      }
+  async createProductWithImages(dto: ICreateProduct, files: Express.Multer.File[]): Promise<IProductResponse> {
+    const uploaded = files?.length ? await this.fileService.uploadManyToCloudinary(files) : [];
 
-      const productData = {
-        name: dto.name,
-        description: dto.description,
-        brand: dto.brand,
-        model: dto.model,
-        basePrice: dto.basePrice,
-        baseStock: dto.baseStock,
-        imgUrls: dto.imgUrls || [],
-        featured: dto.featured || false,
-        specifications: dto.specifications || {},
-        hasVariants: dto.hasVariants || false,
-        isActive: true,
-        category,
-      };
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-      const product = queryRunner.manager.create(Product, productData);
-      const savedProduct = await queryRunner.manager.save(product);
+    try {
+      const imgUrls = uploaded.map((u) => u.secureUrl);
+      const savedProduct = await this.persistProductWithVariants(queryRunner.manager, dto, imgUrls);
 
-      if (dto.variants && dto.variants.length > 0) {
-        const variants = dto.variants.map((variantDto, index) =>
-          queryRunner.manager.create(ProductVariant, {
-            ...variantDto,
-            sortOrder: variantDto.sortOrder ?? index,
+      if (uploaded.length > 0) {
+        const fileRows = uploaded.map((u) =>
+          queryRunner.manager.create(File, {
+            url: u.secureUrl,
+            mimeType: u.mimeType,
+            publicId: u.publicId,
             product: savedProduct,
           }),
         );
-
-        await queryRunner.manager.save(ProductVariant, variants);
-
-        savedProduct.hasVariants = true;
-        await queryRunner.manager.save(Product, savedProduct);
+        await queryRunner.manager.save(File, fileRows);
       }
 
       await queryRunner.commitTransaction();
@@ -296,6 +358,7 @@ export class ProductsService {
       return await this.mapProductWithDiscount(fullProduct);
     } catch (error) {
       await queryRunner.rollbackTransaction();
+      await Promise.all(uploaded.map((u) => this.fileService.destroyFromCloudinary(u.publicId)));
       throw error;
     } finally {
       await queryRunner.release();
@@ -345,7 +408,8 @@ export class ProductsService {
     });
 
     const updatedProduct = await this.productRepo.save(product);
-    return await this.getProductById(updatedProduct.id);
+    await this.cacheManager.del(`/products/${updatedProduct.id}`);
+    return await this.getProductById(updatedProduct.id, true);
   }
 
   async deleteProduct(id: string): Promise<{ id: string; message: string }> {
@@ -360,6 +424,7 @@ export class ProductsService {
 
     product.isActive = false;
     await this.productRepo.save(product);
+    await this.cacheManager.del(`/products/${id}`);
 
     return {
       id,
@@ -391,7 +456,9 @@ export class ProductsService {
       await this.productRepo.save(product);
     }
 
-    return await this.variantRepo.save(variant);
+    const savedVariant = await this.variantRepo.save(variant);
+    await this.cacheManager.del(`/products/${productId}`);
+    return savedVariant;
   }
 
   async updateVariant(variantId: string, updateData: Partial<ICreateVariant>): Promise<ProductVariant> {
@@ -417,7 +484,9 @@ export class ProductsService {
     }
 
     Object.assign(variant, updateData);
-    return await this.variantRepo.save(variant);
+    const savedVariant = await this.variantRepo.save(variant);
+    await this.cacheManager.del(`/products/${variant.product.id}`);
+    return savedVariant;
   }
 
   async removeVariant(variantId: string): Promise<{ id: string; message: string }> {
@@ -440,6 +509,8 @@ export class ProductsService {
       variant.product.hasVariants = false;
       await this.productRepo.save(variant.product);
     }
+
+    await this.cacheManager.del(`/products/${variant.product.id}`);
 
     return {
       id: variantId,
@@ -623,11 +694,9 @@ export class ProductsService {
         variantMap.set(variant.type, new Set());
       }
 
-      const namesForType = variantMap.get(variant.type);
-      if (namesForType?.has(variant.name)) {
+      const namesForType = variantMap.get(variant.type)!;
+      if (namesForType.has(variant.name)) {
         throw new BadRequestException(`Duplicate variant: type '${variant.type}' with name '${variant.name}'`);
-      } else {
-        variantMap.set(variant.type, variantMap.get(variant.type)?.add(variant.name) || new Set([variant.name]));
       }
 
       namesForType.add(variant.name);

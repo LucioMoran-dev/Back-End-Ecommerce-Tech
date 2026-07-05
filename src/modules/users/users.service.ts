@@ -108,7 +108,7 @@ export class UsersService {
       items,
       total,
       pages,
-    } as IPaginatedResult<Users>;
+    };
   }
 
   async getUserById(id: string): Promise<Users & { wishlistCount: number }> {

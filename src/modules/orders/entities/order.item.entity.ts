@@ -49,16 +49,16 @@ export class OrderItem {
   };
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  originalUnitPrice: number;
+  originalUnitPrice: number | null;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   discountAmount: number;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  discountSource: DiscountSource;
+  discountSource: DiscountSource | null;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  discountCode: string;
+  discountCode: string | null;
 
   @CreateDateColumn()
   createdAt: Date;

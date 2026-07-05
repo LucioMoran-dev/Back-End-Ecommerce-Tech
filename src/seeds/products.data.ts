@@ -2508,12 +2508,6 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'GX Red Linear', priceModifier: 0, stock: 7, sortOrder: 2 },
     ],
   },
-  // ============================================================
-  // PRODUCTOS ADICIONALES — agregar al array PRODUCTS_SEED
-  // ============================================================
-  // Importaciones ya presentes en el archivo original:
-  // import { LaptopSpecs, MouseSpecs } from 'src/modules/products/interface/products.interface';
-  // import { TechVariantType } from '../modules/products/enum/product.enum';
 
   // ==================== Laptops (nuevos) ====================
   {

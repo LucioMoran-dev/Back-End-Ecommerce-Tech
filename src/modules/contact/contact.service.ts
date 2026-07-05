@@ -7,7 +7,10 @@ export class ContactService {
   constructor(private readonly mailQueueService: MailQueueService) {}
 
   private sanitizeInput(value: string): string {
-    return value.replace(/[\r\n]/g, ' ').replace(/<[^>]*>/g, '').trim();
+    return value
+      .replace(/[\r\n]/g, ' ')
+      .replace(/<[^>]*>/g, '')
+      .trim();
   }
 
   async handleContactForm(contactDto: IContact): Promise<void> {

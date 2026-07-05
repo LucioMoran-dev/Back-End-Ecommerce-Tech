@@ -6,7 +6,12 @@ import { RepairComment } from './entities/repair-comment.entity';
 import { MailQueueService } from '../mail/mail-queue_email.service';
 import { RepairStatus } from './enum/repairs.enum';
 import { PaginatedRepairsDto, RepairSearchQueryDto } from './dto/paginate.rapair.dto';
-import { ICreateRepair, IRepairResponse, IRepairHistoryResponse, IUpdateRepairStatus } from './interface/repairs.interface';
+import {
+  ICreateRepair,
+  IRepairResponse,
+  IRepairHistoryResponse,
+  IUpdateRepairStatus,
+} from './interface/repairs.interface';
 
 @Injectable()
 export class RepairsService {
@@ -135,7 +140,7 @@ export class RepairsService {
     statusSnapshot: RepairStatus;
   }): Promise<RepairComment> {
     const comment = this.repairCommentRepository.create(data);
-    return this.repairCommentRepository.save(comment);
+    return await this.repairCommentRepository.save(comment);
   }
 
   async getRepairHistory(repairId: string): Promise<IRepairHistoryResponse> {

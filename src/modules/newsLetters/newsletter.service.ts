@@ -46,7 +46,9 @@ export class NewsletterService {
       });
 
       const reactivated = await this.subscriberRepository.findOneBy({ id: existing.id });
-      await this.enqueueNewsletter(reactivated, 'welcome');
+      if (reactivated) {
+        await this.enqueueNewsletter(reactivated, 'welcome');
+      }
 
       this.logger.log(`Subscriber reactivated: ${email}`);
       return { message: 'Te has suscrito nuevamente al newsletter.' };
@@ -296,7 +298,9 @@ export class NewsletterService {
         await this.queueService.queueMonthlyNewsletter(subscriber, tracking.id);
         break;
       case 'promo':
-        await this.queueService.queuePromoNewsletter(subscriber, tracking.id, promoData);
+        if (promoData) {
+          await this.queueService.queuePromoNewsletter(subscriber, tracking.id, promoData);
+        }
         break;
       default:
         this.logger.warn(`Unknown campaign type: ${type}`);

@@ -59,7 +59,8 @@ async function bootstrap(): Promise<void> {
   const prodOrigins: (string | RegExp)[] = [
     /^https:\/\/world-assembly-technology[^.]*\.vercel\.app$/,
     process.env.BACKEND_URL,
-  ].filter(Boolean);
+    // Error de seguridad tira a la url
+  ].filter((origin): origin is string | RegExp => Boolean(origin));
   const isProduction = process.env.NODE_ENV === 'production';
   const corsOrigins = process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
