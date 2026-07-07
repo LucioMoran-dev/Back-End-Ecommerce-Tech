@@ -78,7 +78,7 @@ async function bootstrap(): Promise<void> {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('worldassemblytechnology API')
     .setDescription('Complete API for worldassemblytechnology platform')
-    .setVersion('1.0.0')
+    .setVersion('2.9.2')
     .addBearerAuth()
     .build();
 

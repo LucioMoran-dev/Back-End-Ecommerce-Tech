@@ -1,11 +1,7 @@
 import juice from 'juice';
 
-// Logo WAT
 const WAT_LOGO_URL =
   'https://res.cloudinary.com/dub48rf0p/image/upload/v1770006657/WorldAsseblyTechnologyPNGEmail_b6bsll.png';
-/**
- * Genera el HTML de la cabecera dark tech estilo WAT
- */
 function buildDarkTechHeader(): string {
   return `
     <div class="header">
@@ -31,9 +27,6 @@ function buildDarkTechHeader(): string {
   `;
 }
 
-/**
- * Genera el HTML del footer dark tech estilo WAT
- */
 function buildDarkTechFooter(frontendUrl: string, unsubscribeUrl?: string): string {
   return `
     <div class="footer">
@@ -66,9 +59,6 @@ function buildDarkTechFooter(frontendUrl: string, unsubscribeUrl?: string): stri
   `;
 }
 
-/**
- * Genera los estilos CSS dark tech
- */
 function buildDarkTechStyles(): string {
   return `
     <style>
@@ -368,9 +358,6 @@ function buildDarkTechStyles(): string {
   `;
 }
 
-/**
- * Template base dark tech para newsletters
- */
 function buildDarkTechTemplate(content: string, frontendUrl: string, unsubscribeUrl?: string): string {
   const html = `
 <!DOCTYPE html>
@@ -396,9 +383,6 @@ function buildDarkTechTemplate(content: string, frontendUrl: string, unsubscribe
   return juice(html);
 }
 
-/**
- * Genera el HTML del newsletter mensual con estilo dark tech
- */
 export function buildMonthlyNewsletterHtml(name: string, frontendUrl: string, unsubscribeUrl?: string): string {
   const content = `
     <h1>Novedades del Mes</h1>
@@ -443,9 +427,6 @@ export function buildMonthlyNewsletterHtml(name: string, frontendUrl: string, un
   return buildDarkTechTemplate(content, frontendUrl, unsubscribeUrl);
 }
 
-/**
- * Genera el HTML del newsletter de bienvenida con estilo dark tech
- */
 export function buildWelcomeNewsletterHtml(name: string, frontendUrl: string, unsubscribeUrl?: string): string {
   const content = `
     <h1>¡Bienvenido a WAT!</h1>
@@ -490,9 +471,6 @@ export function buildWelcomeNewsletterHtml(name: string, frontendUrl: string, un
   return buildDarkTechTemplate(content, frontendUrl, unsubscribeUrl);
 }
 
-/**
- * Genera el HTML del newsletter promocional con estilo dark tech
- */
 export function buildPromoNewsletterHtml(
   name: string,
   frontendUrl: string,
@@ -537,9 +515,6 @@ export function buildPromoNewsletterHtml(
   return buildDarkTechTemplate(content, frontendUrl, unsubscribeUrl);
 }
 
-/**
- * Genera el HTML de confirmación de baja del newsletter
- */
 export function buildUnsubscribeConfirmationHtml(email: string, frontendUrl: string, resubscribeUrl?: string): string {
   const content = `
     <h1>Te has dado de baja</h1>
@@ -566,9 +541,6 @@ export function buildUnsubscribeConfirmationHtml(email: string, frontendUrl: str
   return buildDarkTechTemplate(content, frontendUrl);
 }
 
-/**
- * Genera el HTML de campaña personalizada con productos destacados
- */
 export function buildCustomCampaignNewsletterHtml(
   name: string,
   frontendUrl: string,
@@ -588,7 +560,6 @@ export function buildCustomCampaignNewsletterHtml(
   },
   unsubscribeUrl?: string,
 ): string {
-  // Construir HTML de productos destacados
   const productsHtml =
     campaignData.featuredProducts.length > 0
       ? `

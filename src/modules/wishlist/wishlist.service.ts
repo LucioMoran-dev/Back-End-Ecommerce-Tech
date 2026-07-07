@@ -122,9 +122,6 @@ export class WishlistService {
     this.logger.log(`Product ${productId} removed from user ${userId} wishlist`);
   }
 
-  /**
-   * Clear wishlist
-   */
   async clearWishlist(userId: string): Promise<void> {
     const wishlist = await this.wishlistRepo.findOne({
       where: { user_id: userId },

@@ -83,7 +83,7 @@ export class ProductsService {
       minPrice,
       maxPrice,
       brand,
-      categoryId,
+      category_name,
       color,
       featured,
       ram,
@@ -95,6 +95,10 @@ export class ProductsService {
       refresh_rate,
       connectivity,
       condition,
+      // `switch` es palabra reservada: se renombra a switchVariant al destructurar.
+      switch: switchVariant,
+      variantType,
+      variantValue,
       inStock,
       discounted,
       isActive,
@@ -112,6 +116,8 @@ export class ProductsService {
     if (refresh_rate) variantFilters.push({ type: 'refresh_rate', value: refresh_rate });
     if (connectivity) variantFilters.push({ type: 'connectivity', value: connectivity });
     if (condition) variantFilters.push({ type: 'condition', value: condition });
+    if (switchVariant) variantFilters.push({ type: 'switch', value: switchVariant });
+    if (variantType && variantValue) variantFilters.push({ type: variantType, value: variantValue });
 
     const hasFilters: boolean = Boolean(
       name ||
@@ -119,7 +125,7 @@ export class ProductsService {
       minPrice !== undefined ||
       maxPrice !== undefined ||
       brand ||
-      categoryId ||
+      category_name ||
       featured !== undefined ||
       variantFilters.length > 0 ||
       inStock !== undefined ||
@@ -166,8 +172,8 @@ export class ProductsService {
       });
     }
 
-    if (categoryId) {
-      queryBuilder.andWhere('product.category_id = :categoryId', { categoryId: String(categoryId) });
+    if (category_name) {
+      queryBuilder.andWhere('LOWER(category.category_name) = LOWER(:category_name)', { category_name });
     }
 
     if (featured !== undefined) {
@@ -241,7 +247,6 @@ export class ProductsService {
 
   async getProductById(id: string, isAdmin = false): Promise<IProductResponse> {
     const product = await this.productRepo.findOne({
-      // Publico: solo productos activos; los admins pueden traer tambien los inactivos.
       where: isAdmin ? { id } : { id, isActive: true },
       relations: ['category', 'files', 'variants', 'reviews'],
     });
@@ -713,10 +718,11 @@ export class ProductsService {
     }
   }
 
-  async seedProducts(): Promise<{ message: string; total: number; updated?: number }> {
+  async seedProducts(): Promise<{ message: string; total: number; updated?: number; variantsAdded?: number }> {
     const created: Product[] = [];
     let updated = 0;
     let skipped = 0;
+    let variantsAdded = 0;
 
     const categoriasSeeder = await this.categoriesService.getCategories();
     if (!categoriasSeeder || categoriasSeeder.items.length === 0) {
@@ -759,6 +765,38 @@ export class ProductsService {
             skipped++;
             this.logger.log(`Product ${seedData.name} already up to date, skipping...`);
           }
+          if (seedData.variants && seedData.variants.length > 0) {
+            const currentVariants = await this.variantRepo.find({
+              where: { product_id: existing.id },
+            });
+            const currentKeys = new Set(currentVariants.map((v) => `${v.type}|${v.name}`));
+
+            const missing = seedData.variants.filter((v) => !currentKeys.has(`${v.type}|${v.name}`));
+
+            if (missing.length > 0) {
+              const baseSort = currentVariants.length;
+              const newVariants = missing.map((variantData, index) =>
+                this.variantRepo.create({
+                  type: variantData.type,
+                  name: variantData.name,
+                  description: variantData.description || '',
+                  priceModifier: variantData.priceModifier,
+                  stock: variantData.stock,
+                  isAvailable: variantData.isAvailable ?? true,
+                  sortOrder: variantData.sortOrder ?? baseSort + index,
+                  product: existing,
+                }),
+              );
+              await this.variantRepo.save(newVariants);
+              variantsAdded += missing.length;
+              if (!existing.hasVariants) {
+                existing.hasVariants = true;
+                await this.productRepo.save(existing);
+              }
+              this.logger.log(`Product ${seedData.name}: ${missing.length} missing variant(s) added.`);
+            }
+          }
+
           continue;
         }
 
@@ -816,14 +854,15 @@ export class ProductsService {
       }
     }
 
-    if (created.length === 0 && updated === 0) {
+    if (created.length === 0 && updated === 0 && variantsAdded === 0) {
       throw new HttpException('All products are already seeded and up to date', HttpStatus.CONFLICT);
     }
 
     return {
-      message: `Products seeded successfully. Created: ${created.length}, Updated: ${updated}, Skipped: ${skipped}`,
+      message: `Products seeded successfully. Created: ${created.length}, Updated: ${updated}, Skipped: ${skipped}, Variants added: ${variantsAdded}`,
       total: created.length,
       updated,
+      variantsAdded,
     };
   }
 

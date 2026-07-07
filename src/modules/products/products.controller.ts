@@ -51,10 +51,7 @@ import { Throttle } from '@nestjs/throttler';
 import { ResponseProductDto } from './dto/product.response.dto';
 import { CreateProductDto, CreateProductWithImagesDto, UpdateProductDto } from './dto/product.create.dto';
 import { CreateVariantDto } from './dto/product.variant.dto';
-// cambiar a interface
-const MAX_PRODUCT_IMAGES = 8;
-const ALLOWED_IMAGE_MIMES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+import { ALLOWED_IMAGE_MIMES, MAX_IMAGE_SIZE, MAX_PRODUCT_IMAGES } from '../../common/constants/business.constants';
 
 @ApiTags('Products')
 @Controller('products')
@@ -94,11 +91,11 @@ export class ProductsController {
     example: 'Dell',
   })
   @ApiQuery({
-    name: 'categoryId',
+    name: 'category_name',
     required: false,
     type: String,
-    description: 'Filter by category ID (UUID)',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Filter by category name (case-insensitive, exact match)',
+    example: 'Laptops',
   })
   @ApiQuery({
     name: 'color',
@@ -149,6 +146,13 @@ export class ProductsController {
     type: String,
     description: 'Filter by variant name/value (use with variantType)',
     example: '16GB',
+  })
+  @ApiQuery({
+    name: 'switch',
+    required: false,
+    type: String,
+    description: 'Filter by switch variant (partial, case-insensitive)',
+    example: 'Cherry MX',
   })
   @ApiQuery({
     name: 'inStock',

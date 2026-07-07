@@ -1,7 +1,4 @@
 {
-  // Hace que VSCode use el TypeScript del proyecto (6.0.3) en vez del que trae el editor.
-  // Asi el editor y la terminal (pnpm tsc) ven la MISMA version y no aparecen errores fantasma.
-  "typescript.tsdk": "node_modules/typescript/lib",
-  // Muestra el cartel para elegir "Use Workspace Version" la primera vez.
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true
 }

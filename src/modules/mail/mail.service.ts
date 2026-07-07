@@ -39,9 +39,6 @@ export class MailService {
     });
   }
 
-  /**
-   * Inyecta variables comunes (frontendUrl, supportLink) en todos los templates
-   */
   private enrichContext(context: Record<string, any>): Record<string, any> {
     return {
       ...context,
