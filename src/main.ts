@@ -117,8 +117,8 @@ async function bootstrap(): Promise<void> {
   }
 
   logger.log(`Application Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3001'}`);
-  logger.log(`Application running on: http://localhost:${port}`);
-  logger.log(`Swagger documentation: http://localhost:${port}/api/docs`);
+  logger.log(`Application running on: ${process.env.BACKEND_URL}`);
+  logger.log(`Swagger documentation: ${process.env.BACKEND_URL}/api/docs`);
 }
 
 bootstrap().catch((error) => {
