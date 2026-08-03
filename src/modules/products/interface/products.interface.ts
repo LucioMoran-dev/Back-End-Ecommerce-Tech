@@ -77,6 +77,10 @@ export interface IAutocompleteResult {
   image: string | null;
   category: string | null;
 }
+export interface IProductRatingStats {
+  averageRating: number;
+  reviewCount: number;
+}
 
 export interface IAiProduct {
   id: string;
@@ -165,6 +169,8 @@ export interface IProductResponse {
   discountAmount: number;
   discountPercentage: number | null;
   discountEndDate: Date | null;
+  averageRating: number;
+  reviewCount: number;
   createdAt: Date;
   updatedAt: Date;
 }

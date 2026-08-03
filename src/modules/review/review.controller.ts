@@ -23,7 +23,8 @@ import { RoleGuard } from 'src/guards/auth.guards.role';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthRequest } from 'src/common/auths/auth-request.interface';
 import { ReviewMapper } from './mappers/review.mapper';
-import { PaginatedReviewsAdminDto, ReviewSearchQueryDto } from './dto/PaginationQueryDto';
+import { PaginatedReviewsAdminDto, PaginatedReviewsDto, ReviewSearchQueryDto } from './dto/PaginationQueryDto';
+import { PaginationQueryDto } from '../../common/pagination';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewResponseAdminDto, ReviewResponsePublicDto } from './dto/review.response.interface';
 import { Rating } from './enum/review.enum';
@@ -97,6 +98,28 @@ export class ReviewController {
     };
   }
 
+  @Get('my-reviews')
+  @ApiOperation({
+    summary: "Get the authenticated user's own reviews (paginated)",
+    description: 'Returns the reviews created by the logged-in user (scoped to their own user id)',
+  })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiResponse({
+    status: 200,
+    description: 'User reviews retrieved',
+    type: PaginatedReviewsDto,
+  })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(UserRole.CLIENT)
+  async getMyReviews(@Query() query: PaginationQueryDto, @Req() req: AuthRequest): Promise<PaginatedReviewsDto> {
+    const { items, ...meta } = await this.reviewService.findByUser(req.user.sub, {
+      page: query.page,
+      limit: query.limit,
+    });
+    return { ...meta, items };
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Get a review by ID',
@@ -107,7 +130,7 @@ export class ReviewController {
     description: 'Review found',
   })
   @UseGuards(AuthGuard, RoleGuard)
-  @Roles(UserRole.CLIENT)
+  @Roles(UserRole.ADMIN)
   async findOne(@Param('id') id: string): Promise<ReviewResponsePublicDto> {
     return await this.reviewService.findOne(id);
   }
@@ -193,7 +216,7 @@ export class ReviewController {
   @Delete(':id')
   @ApiOperation({
     summary: 'Delete a review',
-    description: 'A customer can only delete their own reviews',
+    description: 'A customer can delete only their own review; an ADMIN can delete any review (moderation)',
   })
   @ApiResponse({
     status: 200,
@@ -202,6 +225,6 @@ export class ReviewController {
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(UserRole.CLIENT)
   async remove(@Param('id') id: string, @Req() req: AuthRequest): Promise<void> {
-    return await this.reviewService.remove(id, req.user.sub);
+    return await this.reviewService.remove(id, req.user.sub, req.user.role as UserRole);
   }
 }

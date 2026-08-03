@@ -4,6 +4,7 @@ import { ProductDiscount } from '../../discounts/entities/product-discount.entit
 import { DiscountType } from '../../discounts/enums/discount.enums';
 import { ResponseVariantDto } from '../dto/product.variant.dto';
 import { ResponseProductDto } from '../dto/product.response.dto';
+import { IProductRatingStats } from '../interface/products.interface';
 
 export function mapVariantToDto(variant: ProductVariant): ResponseVariantDto {
   return {
@@ -20,7 +21,11 @@ export function mapVariantToDto(variant: ProductVariant): ResponseVariantDto {
   };
 }
 
-export function mapToProductDto(product: Product, activeDiscount?: ProductDiscount | null): ResponseProductDto {
+export function mapToProductDto(
+  product: Product,
+  activeDiscount?: ProductDiscount | null,
+  ratingStats?: IProductRatingStats,
+): ResponseProductDto {
   const calculateBaseDisplayPrice = (): number => {
     if (!product.hasVariants || !product.variants?.length) {
       return Number(product.basePrice);
@@ -141,6 +146,8 @@ export function mapToProductDto(product: Product, activeDiscount?: ProductDiscou
     discountAmount: discountInfo.discountAmount,
     discountPercentage: discountInfo.discountPercentage,
     discountEndDate: discountInfo.discountEndDate,
+    averageRating: ratingStats?.averageRating ?? 0,
+    reviewCount: ratingStats?.reviewCount ?? 0,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   };
@@ -149,8 +156,9 @@ export function mapToProductDto(product: Product, activeDiscount?: ProductDiscou
 export function mapProductListToDto(
   products: Product[],
   discountMap?: Map<string, ProductDiscount>,
+  ratingMap?: Map<string, IProductRatingStats>,
 ): ResponseProductDto[] {
-  return products.map((p) => mapToProductDto(p, discountMap?.get(p.id)));
+  return products.map((p) => mapToProductDto(p, discountMap?.get(p.id), ratingMap?.get(p.id)));
 }
 
 export function getProductStats(product: Product): {

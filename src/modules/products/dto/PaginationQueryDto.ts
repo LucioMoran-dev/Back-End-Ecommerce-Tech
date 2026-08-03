@@ -78,9 +78,9 @@ export class ProductsSearchQueryDto extends PaginationQueryDto {
   category_name?: string;
 
   @ApiProperty({
-    example: 'Black',
+    example: 'Negro',
     required: false,
-    description: 'Filter by product variant color',
+    description: 'Filter by product variant color (palette: Negro, Azul, Rojo, Blanco, Gris, Verde, Plateado)',
     minLength: 2,
     maxLength: 50,
   })

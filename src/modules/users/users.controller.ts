@@ -103,7 +103,11 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete user by ID (soft delete)' })
+  @ApiOperation({
+    summary: 'Delete a user account (soft delete)',
+    description:
+      'Deleting another user account is restricted to SUPER_ADMIN. Any authenticated user can delete only their OWN account.',
+  })
   @ApiParam({
     name: 'id',
     type: String,
@@ -114,13 +118,19 @@ export class UsersController {
     description: 'User deleted successfully',
   })
   @ApiResponse({
+    status: 403,
+    description: 'You can only delete your own account (non super-admin trying to delete another account)',
+  })
+  @ApiResponse({
     status: 404,
     description: 'User not found',
   })
+  // Solo se exige token (AuthGuard); la regla dueño-o-super_admin se resuelve en el service
+  // porque no es un simple gate por rol (depende de si el id objetivo es el del propio usuario).
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<{ message: string }> {
-    return await this.usersService.deleteUser(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: AuthRequest): Promise<{ message: string }> {
+    return await this.usersService.deleteUser(id, req.user.sub, req.user.role as UserRole);
   }
 
   @Patch('restore/:id')

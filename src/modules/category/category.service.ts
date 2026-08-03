@@ -7,7 +7,7 @@ import { Cache } from 'cache-manager';
 import { Category } from './entities/category.entity';
 import { PRODUCTS_SEED } from 'src/seeds/products.data';
 import { CategorySearchQueryDto } from './dto/PaginationQueryDto';
-import { ICreateCategory } from './interface/category.interface';
+import { ICreateCategory, IUpdateCategory } from './interface/category.interface';
 import { IPaginatedResult } from '../../common/pagination';
 
 @Injectable()
@@ -94,6 +94,7 @@ export class CategoriesService {
 
     const category = this.categoryRepo.create({
       category_name: dto.category_name,
+      description: dto.description ?? null,
     });
     const savedCategory = await this.categoryRepo.save(category);
     await this.cacheManager.del('/categories');
@@ -106,5 +107,46 @@ export class CategoriesService {
       throw new NotFoundException(`Category with ID ${id} not found`);
     }
     return exist;
+  }
+
+  async updateCategory(id: string, dto: IUpdateCategory): Promise<Category> {
+    const category = await this.categoryRepo.findOne({ where: { id } });
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+
+    if (dto.category_name && dto.category_name !== category.category_name) {
+      const exists = await this.findByName(dto.category_name);
+      if (exists) {
+        throw new HttpException(`Category "${dto.category_name}" already exists`, HttpStatus.CONFLICT);
+      }
+      category.category_name = dto.category_name;
+    }
+
+    if (dto.description !== undefined) {
+      category.description = dto.description ?? null;
+    }
+
+    const updatedCategory = await this.categoryRepo.save(category);
+    await this.cacheManager.del('/categories');
+    return updatedCategory;
+  }
+
+  async deleteCategory(id: string): Promise<{ id: string; message: string }> {
+    const category = await this.categoryRepo.findOne({ where: { id }, relations: ['products'] });
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+
+    if (category.products && category.products.length > 0) {
+      throw new HttpException(
+        `Cannot delete category "${category.category_name}" because it has ${category.products.length} associated product(s)`,
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    await this.categoryRepo.remove(category);
+    await this.cacheManager.del('/categories');
+    return { id, message: `Category ${id} successfully removed.` };
   }
 }

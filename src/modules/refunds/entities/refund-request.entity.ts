@@ -15,6 +15,7 @@ import { Users } from '../../users/entities/users.entity';
 @Index(['status'])
 @Index(['createdAt'])
 @Index(['userId', 'status'])
+@Index('IDX_refund_order', ['orderId'])
 @Entity('refund_requests')
 export class RefundRequest {
   @PrimaryGeneratedColumn('uuid')

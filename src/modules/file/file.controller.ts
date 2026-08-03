@@ -1,6 +1,8 @@
 import {
   Controller,
   Post,
+  Get,
+  Delete,
   Param,
   UploadedFile,
   UseInterceptors,
@@ -62,5 +64,33 @@ export class FileController {
       throw new BadRequestException('No file was provided');
     }
     return this.fileService.uploadImage(id, file);
+  }
+
+  @ApiBearerAuth()
+  @Get('product/:productId')
+  @ApiOperation({ summary: 'List images of a product (admin)' })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiResponse({
+    status: 200,
+    description: 'Product images retrieved',
+    type: [FileResponseDto],
+  })
+  async getProductImages(@Param('productId', ParseUUIDPipe) productId: string): Promise<FileResponseDto[]> {
+    const files = await this.fileService.getProductImages(productId);
+    return files.map((f) => ({ id: f.id, url: f.url }));
+  }
+
+  @ApiBearerAuth()
+  @Delete('image/:imageId')
+  @ApiOperation({ summary: 'Delete a product image (also removes the file from Cloudinary) - Admin only' })
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiResponse({
+    status: 200,
+    description: 'Image deleted successfully',
+  })
+  async deleteProductImage(@Param('imageId', ParseUUIDPipe) imageId: string): Promise<{ message: string }> {
+    return await this.fileService.deleteImage(imageId);
   }
 }

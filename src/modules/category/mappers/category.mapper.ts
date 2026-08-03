@@ -6,6 +6,7 @@ export class ResponseCategoryDto {
     return {
       id: category.id,
       category_name: category.category_name,
+      description: category.description ?? null,
       products: category.products?.map((product) => ({
         id: product.id,
         name: product.name,

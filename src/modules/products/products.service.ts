@@ -13,6 +13,7 @@ import { Repository, In, DataSource, ILike, EntityManager } from 'typeorm';
 import { Product } from './entities/products.entity';
 import { ProductVariant } from './entities/products_variant.entity';
 import { File } from '../file/entities/file.entity';
+import { Review } from '../review/entities/review.entity';
 import { FileService } from '../file/file.service';
 import { CategoriesService } from '../category/category.service';
 import { ProductsSearchQueryDto } from './dto/PaginationQueryDto';
@@ -20,13 +21,13 @@ import { paginate } from 'src/common/pagination/paginate';
 import { mapToProductDto } from './validate/products.validate';
 import { PRODUCTS_SEED } from 'src/seeds/products.data';
 import { N8nService } from '../N8N/n8n.service';
-import { AiSearchResponse } from '../N8N/interface/n8n.interface';
 import {
   IAiProduct,
   IAutocompleteResult,
   ICreateProduct,
   ICreateVariant,
   IHybridSearchStreamPayload,
+  IProductRatingStats,
   IProductResponse,
   IUpdateProduct,
 } from './interface/products.interface';
@@ -48,6 +49,9 @@ export class ProductsService {
     @InjectRepository(ProductVariant)
     private readonly variantRepo: Repository<ProductVariant>,
 
+    @InjectRepository(Review)
+    private readonly reviewRepo: Repository<Review>,
+
     @Inject(forwardRef(() => CategoriesService))
     private readonly categoriesService: CategoriesService,
 
@@ -67,13 +71,42 @@ export class ProductsService {
 
   private async mapProductsWithDiscounts(products: Product[]): Promise<IProductResponse[]> {
     const productIds = products.map((p) => p.id);
-    const discountMap = await this.discountsService.getActiveDiscountsForProducts(productIds);
-    return products.map((p) => mapToProductDto(p, discountMap.get(p.id)));
+    const [discountMap, ratingMap] = await Promise.all([
+      this.discountsService.getActiveDiscountsForProducts(productIds),
+      this.getRatingStatsForProducts(productIds),
+    ]);
+    return products.map((p) => mapToProductDto(p, discountMap.get(p.id), ratingMap.get(p.id)));
   }
 
   private async mapProductWithDiscount(product: Product): Promise<IProductResponse> {
-    const discount = await this.discountsService.getActiveProductDiscount(product.id);
-    return mapToProductDto(product, discount);
+    const [discount, ratingMap] = await Promise.all([
+      this.discountsService.getActiveProductDiscount(product.id),
+      this.getRatingStatsForProducts([product.id]),
+    ]);
+    return mapToProductDto(product, discount, ratingMap.get(product.id));
+  }
+
+  private async getRatingStatsForProducts(productIds: string[]): Promise<Map<string, IProductRatingStats>> {
+    if (productIds.length === 0) return new Map();
+
+    const rows = await this.reviewRepo
+      .createQueryBuilder('r')
+      .select('r.product_id', 'productId')
+      .addSelect('AVG(r.rating::text::integer)', 'avg')
+      .addSelect('COUNT(*)', 'count')
+      .where('r.product_id IN (:...productIds)', { productIds })
+      .andWhere('r.isVisible = :visible', { visible: true })
+      .groupBy('r.product_id')
+      .getRawMany<{ productId: string; avg: string; count: string }>();
+
+    const map = new Map<string, IProductRatingStats>();
+    for (const row of rows) {
+      map.set(row.productId, {
+        averageRating: Math.round(Number(row.avg) * 10) / 10,
+        reviewCount: Number(row.count),
+      });
+    }
+    return map;
   }
 
   async getProducts(searchQuery: ProductsSearchQueryDto, isAdmin = false): Promise<IPaginatedResult<IProductResponse>> {
@@ -95,7 +128,6 @@ export class ProductsService {
       refresh_rate,
       connectivity,
       condition,
-      // `switch` es palabra reservada: se renombra a switchVariant al destructurar.
       switch: switchVariant,
       variantType,
       variantValue,
@@ -951,23 +983,6 @@ export class ProductsService {
       image: p.imgUrls?.[0] || null,
       category: p.category?.category_name || null,
     }));
-  }
-
-  async aiSearch(query: string): Promise<AiSearchResponse> {
-    if (!query?.trim() || query.trim().length < 3) {
-      return { products: [], message: 'Query is too short' };
-    }
-
-    try {
-      if (!this.n8nService.isEnabled) {
-        return { products: await this.searchProducts(query, 10) };
-      }
-      return await this.n8nService.productSearch(query.trim());
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      this.logger.warn(`AI search failed: ${message}`);
-      return { products: await this.searchProducts(query, 10), fallback: true };
-    }
   }
 
   hybridSearchStream(query: string): Observable<{ data: IHybridSearchStreamPayload }> {

@@ -101,8 +101,9 @@ export class ProductsController {
     name: 'color',
     required: false,
     type: String,
-    description: 'Filter by variant color (partial, case-insensitive)',
-    example: 'Black',
+    description:
+      'Filter by variant color (partial, case-insensitive). Palette: Negro, Azul, Rojo, Blanco, Gris, Verde, Plateado',
+    example: 'Negro',
   })
   @ApiQuery({
     name: 'minPrice',

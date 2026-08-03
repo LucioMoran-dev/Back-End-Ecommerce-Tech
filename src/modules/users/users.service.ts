@@ -3,8 +3,10 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { UserRole } from '../../decorator/role.decorator';
 import { Users } from './entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -252,8 +254,12 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: string): Promise<{ message: string }> {
+  async deleteUser(id: string, requesterId: string, requesterRole: UserRole): Promise<{ message: string }> {
     try {
+      if (requesterRole !== UserRole.SUPER_ADMIN && requesterId !== id) {
+        throw new ForbiddenException('You can only delete your own account');
+      }
+
       const user = await this.usersRepository.findOne({ where: { id } });
 
       if (!user) {
@@ -270,7 +276,11 @@ export class UsersService {
 
       return { message: `User ${id} successfully removed.` };
     } catch (error) {
-      if (error instanceof NotFoundException || error instanceof BadRequestException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException ||
+        error instanceof ForbiddenException
+      ) {
         throw error;
       }
       this.logger.error('Error: Failed to delete account, please try again later', error);

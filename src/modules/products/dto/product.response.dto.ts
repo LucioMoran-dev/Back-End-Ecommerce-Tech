@@ -88,6 +88,12 @@ export class ResponseProductDto {
   @ApiPropertyOptional({ example: '2026-06-01T00:00:00Z', description: 'When the discount expires' })
   discountEndDate: Date | null;
 
+  @ApiProperty({ example: 4.3, description: 'Average rating from visible reviews (0 if none), rounded to 1 decimal' })
+  averageRating: number;
+
+  @ApiProperty({ example: 12, description: 'Number of visible reviews for this product' })
+  reviewCount: number;
+
   @ApiProperty({ example: '2024-01-15T10:30:00Z' })
   createdAt: Date;
 
