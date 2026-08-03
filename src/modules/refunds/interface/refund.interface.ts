@@ -1,3 +1,5 @@
+import { OrderStatus } from '../../orders/enum/order.enum';
+
 export interface ICreateRefund {
   orderId: string;
   reason: string;
@@ -7,3 +9,10 @@ export interface ICreateRefund {
 export interface IAdminRefundAction {
   adminResponse: string;
 }
+
+export const REFUNDABLE_STATUSES = [
+  OrderStatus.PAID,
+  OrderStatus.PROCESSING,
+  OrderStatus.SHIPPED,
+  OrderStatus.DELIVERED,
+];

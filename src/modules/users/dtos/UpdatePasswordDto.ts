@@ -8,9 +8,9 @@ export class UpdatePasswordDto {
 
   @ApiProperty({ example: 'NewPassword!1' })
   @IsString()
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/, {
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,15}$/, {
     message:
-      'The new password must include an uppercase, a lowercase, a number, and a special character (!@#$%^&*), between 8 and 15 characters.',
+      'The new password must include an uppercase, a lowercase, a number and a special character, between 8 and 15 characters.',
   })
   newPassword: string;
 }

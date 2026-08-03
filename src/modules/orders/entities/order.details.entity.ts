@@ -23,19 +23,19 @@ export class OrderDetail {
   total: number;
 
   @Column({ type: 'uuid', nullable: true })
-  shippingAddressId: string;
+  shippingAddressId: string | null;
 
   @Column({ type: 'jsonb', nullable: true })
-  shippingAddressSnapshot: IAddress;
+  shippingAddressSnapshot: IAddress | null;
 
-  @Column({ nullable: true })
-  paymentMethod: string;
+  @Column({ type: 'varchar', nullable: true })
+  paymentMethod: string | null;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   totalDiscount: number;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  promoCodeUsed: string;
+  promoCodeUsed: string | null;
 
   @OneToOne(() => Order, (order) => order.orderDetail)
   order: Order;

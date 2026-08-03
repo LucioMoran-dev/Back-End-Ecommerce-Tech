@@ -26,6 +26,7 @@ import { OrderValidations } from './validates/order.validates';
 import { DiscountsService } from '../discounts/discounts.service';
 import { OrderNotificationService } from './order-notifications.service';
 import { IOrderItemDiscount } from '../discounts/interfaces/discount.interfaces';
+import { PromoCode } from '../discounts/entities/promo-code.entity';
 import { OrderStatus } from './enum/order.enum';
 import { SHIPPING, TAX_RATE } from '../../common/constants/business.constants';
 import { roundMoney } from '../../common/utils/money.utils';
@@ -111,7 +112,7 @@ export class OrdersService {
           .getMany();
       }
 
-      let shippingAddressSnapshot: IAddress;
+      let shippingAddressSnapshot: IAddress | undefined;
       let shippingAddressId: string | null = null;
 
       if (cart.selectedAddressId) {
@@ -148,7 +149,7 @@ export class OrdersService {
       if (!shippingAddressSnapshot) {
         throw new BadRequestException('Shipping address is required to create an order');
       }
-      let validatedPromoCode = undefined;
+      let validatedPromoCode: PromoCode | undefined = undefined;
       let eligibleProductIds: string[] | undefined;
       if (promoCode) {
         const validation = await this.discountsService.validatePromoCode(promoCode, userId, cart.items);
@@ -589,7 +590,10 @@ export class OrdersService {
         quantity: cartItem.quantity,
         unitPrice: finalUnitPrice,
         subtotal,
-        originalUnitPrice: discount?.discountAmount > 0 ? originalUnitPrice : null,
+        // Solo guardamos el precio original si realmente hubo descuento (> 0).
+        // Strict mode: `discount?.discountAmount` puede ser undefined, y comparar undefined > 0
+        // da error de tipos; por eso se usa `?? 0` para que caiga a 0 cuando no hay descuento.
+        originalUnitPrice: (discount?.discountAmount ?? 0) > 0 ? originalUnitPrice : null,
         discountAmount,
         discountSource: discount?.discountSource || null,
         discountCode: discount?.discountCode || null,

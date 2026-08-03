@@ -1,9 +1,21 @@
-import { Controller, Get, Post, Body, UseGuards, Param, Logger, Query, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  UseGuards,
+  Param,
+  ParseUUIDPipe,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import { CategoriesService } from './category.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
 
 import { AuthGuard } from '../../guards/auth.guards';
@@ -17,7 +29,6 @@ import { ResponseCategoryDto } from './mappers/category.mapper';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
-  private readonly logger = new Logger(CategoriesController.name);
 
   @ApiOperation({
     summary: 'Retrieve all users (paginated) with optional search filters',
@@ -58,6 +69,28 @@ export class CategoriesController {
   getById(@Param('id') id: string): Promise<Category> {
     const category = this.categoriesService.getByIdCategory(id);
     return category;
+  }
+
+  @ApiBearerAuth()
+  @Put(':id')
+  @UseGuards(AuthGuard, RoleGuard)
+  @ApiOperation({
+    summary: 'Update category',
+  })
+  @Roles(UserRole.ADMIN)
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateCategoryDto): Promise<Category> {
+    return this.categoriesService.updateCategory(id, dto);
+  }
+
+  @ApiBearerAuth()
+  @Delete(':id')
+  @UseGuards(AuthGuard, RoleGuard)
+  @ApiOperation({
+    summary: 'Delete category',
+  })
+  @Roles(UserRole.ADMIN)
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<{ id: string; message: string }> {
+    return this.categoriesService.deleteCategory(id);
   }
 
   @ApiBearerAuth()

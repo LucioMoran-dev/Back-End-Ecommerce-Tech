@@ -67,7 +67,7 @@ export interface IOrderDetailResponse {
   total: number;
   totalDiscount: number;
   promoCodeUsed?: string | null;
-  shippingAddress?: IAddress;
+  shippingAddress?: IAddress | null;
   shippingAddressId?: string | null;
   paymentMethod?: string | null;
   items: IOrderItemResponse[];

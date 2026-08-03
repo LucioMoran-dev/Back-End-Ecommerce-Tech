@@ -23,7 +23,7 @@ import { Roles, UserRole } from 'src/decorator/role.decorator';
 import { PaginatedUsersDto } from './dtos/paginated-users.dto';
 import { UserSearchQueryDto } from './dtos/PaginationQueryDto';
 import { AuthRequest } from 'src/common/auths/auth-request.interface';
-import { UpdateRoleDto, UserResponseDto, UserResponseWithAdminDto } from './dtos/user-response.dto';
+import { UpdateRoleDto, UserResponseDto } from './dtos/user-response.dto';
 import { UserMapper } from './mappers/user.mapper';
 import { UpdatePasswordDto } from './dtos/UpdatePasswordDto';
 import { UpdateUserDbDto } from './dtos/CreateUserDto';
@@ -60,7 +60,7 @@ export class UsersController {
   @Get()
   async getUsers(@Query() searchQuery: UserSearchQueryDto): Promise<PaginatedUsersDto> {
     const { items, ...meta } = await this.usersService.getUsers(searchQuery);
-    return { ...meta, items: UserMapper.toAdminResponseList(items) as UserResponseWithAdminDto[] };
+    return { ...meta, items: UserMapper.toAdminResponseList(items) };
   }
 
   @Patch('password')
@@ -77,7 +77,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'OK', type: UserResponseDto })
   @UseGuards(AuthGuard)
   async getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponseDto> {
-    return UserMapper.toResponse(await this.usersService.getUserById(id)) as UserResponseDto;
+    return UserMapper.toResponse(await this.usersService.getUserById(id));
   }
 
   @Patch('roles/:id')
@@ -99,11 +99,15 @@ export class UsersController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async updateUser(@Req() req: AuthRequest, @Body() updateData: UpdateUserDbDto): Promise<UserResponseDto> {
     const user = await this.usersService.updateUserService(req.user.sub, updateData);
-    return UserMapper.toResponse(user) as UserResponseDto;
+    return UserMapper.toResponse(user);
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete user by ID (soft delete)' })
+  @ApiOperation({
+    summary: 'Delete a user account (soft delete)',
+    description:
+      'Deleting another user account is restricted to SUPER_ADMIN. Any authenticated user can delete only their OWN account.',
+  })
   @ApiParam({
     name: 'id',
     type: String,
@@ -114,13 +118,19 @@ export class UsersController {
     description: 'User deleted successfully',
   })
   @ApiResponse({
+    status: 403,
+    description: 'You can only delete your own account (non super-admin trying to delete another account)',
+  })
+  @ApiResponse({
     status: 404,
     description: 'User not found',
   })
+  // Solo se exige token (AuthGuard); la regla dueño-o-super_admin se resuelve en el service
+  // porque no es un simple gate por rol (depende de si el id objetivo es el del propio usuario).
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<{ message: string }> {
-    return await this.usersService.deleteUser(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: AuthRequest): Promise<{ message: string }> {
+    return await this.usersService.deleteUser(id, req.user.sub, req.user.role as UserRole);
   }
 
   @Patch('restore/:id')
@@ -139,7 +149,7 @@ export class UsersController {
   })
   async restoreUser(@Param('id', ParseUUIDPipe) id: string): Promise<UserResponseDto> {
     const user = await this.usersService.restoreUser(id);
-    return UserMapper.toResponse(user) as UserResponseDto;
+    return UserMapper.toResponse(user);
   }
 
   @Post('forgot-password')

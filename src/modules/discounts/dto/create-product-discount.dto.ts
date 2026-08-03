@@ -14,7 +14,7 @@ export class CreateProductDiscountDto {
   @ApiProperty({ example: 30, description: 'Valor del descuento. Si es porcentaje, max 100.' })
   @IsNumber()
   @Min(0.01)
-  @ValidateIf((o) => o.discountType === DiscountType.PERCENTAGE)
+  @ValidateIf((o: CreateProductDiscountDto) => o.discountType === DiscountType.PERCENTAGE)
   @Max(100)
   value: number;
 
@@ -39,7 +39,7 @@ export class UpdateProductDiscountDto {
   @IsOptional()
   @IsNumber()
   @Min(0.01)
-  @ValidateIf((o) => o.discountType === DiscountType.PERCENTAGE)
+  @ValidateIf((o: UpdateProductDiscountDto) => o.discountType === DiscountType.PERCENTAGE)
   @Max(100)
   value?: number;
 

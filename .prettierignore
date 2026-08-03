@@ -1,0 +1,13 @@
+# Mantener sincronizado con la lista `ignores` de eslint.config.mjs para que
+# ambas herramientas ignoren los mismos archivos generados / de terceros.
+dist
+build
+node_modules
+coverage
+*.js.map
+
+# Migraciones generadas por TypeORM 
+src/migrations
+
+# Plantillas de mail
+src/modules/mail/templates

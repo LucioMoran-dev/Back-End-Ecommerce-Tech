@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../../common/pagination';
+import { IPaginatedResult } from '../../common/pagination/IPaginatedResult';
 import { AuthGuard } from 'src/guards/auth.guards';
 
 import { Roles, UserRole } from 'src/decorator/role.decorator';
@@ -111,7 +112,7 @@ export class PaymentsController {
   })
   @UseGuards(AuthGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
-  async getAllPaymentStatus(@Query() query: PaginationQueryDto) {
+  async getAllPaymentStatus(@Query() query: PaginationQueryDto): Promise<IPaginatedResult<PaymentCompletedDto>> {
     return await this.PaymentsService.getAllOrdersPayment({ page: query.page, limit: query.limit });
   }
 
@@ -176,7 +177,10 @@ export class PaymentsController {
     description: 'User payments retrieved successfully',
   })
   @UseGuards(AuthGuard)
-  async getMyPayments(@Req() req: AuthRequest, @Query() query: PaginationQueryDto) {
+  async getMyPayments(
+    @Req() req: AuthRequest,
+    @Query() query: PaginationQueryDto,
+  ): Promise<IPaginatedResult<MyPaymentResponseDto>> {
     return await this.PaymentsService.getPaymentsByUserId(req.user.sub, { page: query.page, limit: query.limit });
   }
 

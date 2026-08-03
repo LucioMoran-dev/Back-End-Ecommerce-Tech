@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { DeviceType, RepairStatus, RepairUrgency } from '../enum/repairs.enum';
+import { RepairComment } from './repair-comment.entity';
 
 @Index(['status'])
 @Index(['urgency'])
@@ -45,4 +46,7 @@ export class Repair {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => RepairComment, (comment) => comment.repair)
+  comments: RepairComment[];
 }

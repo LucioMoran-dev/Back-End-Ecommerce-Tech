@@ -3,8 +3,10 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { UserRole } from '../../decorator/role.decorator';
 import { Users } from './entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -56,9 +58,9 @@ export class UsersService {
   ) {}
 
   async getUsers(searchQuery: UserSearchQueryDto): Promise<IPaginatedResult<Users>> {
-    const { username, email, ...pagination } = searchQuery;
+    const { name, username, email, ...pagination } = searchQuery;
 
-    if (!username && !email) {
+    if (!name && !username && !email) {
       return await paginate(this.usersRepository, pagination, {
         order: { createdAt: 'DESC' },
         withDeleted: true,
@@ -84,6 +86,12 @@ export class UsersService {
     queryBuilder.leftJoinAndSelect('user.addresses', 'addresses');
     queryBuilder.where('1 = 1');
 
+    if (name) {
+      queryBuilder.andWhere('LOWER(user.name) LIKE LOWER(:name)', {
+        name: `%${name}%`,
+      });
+    }
+
     if (username) {
       queryBuilder.andWhere('LOWER(user.username) LIKE LOWER(:username)', {
         username: `%${username}%`,
@@ -108,7 +116,7 @@ export class UsersService {
       items,
       total,
       pages,
-    } as IPaginatedResult<Users>;
+    };
   }
 
   async getUserById(id: string): Promise<Users & { wishlistCount: number }> {
@@ -246,8 +254,12 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: string): Promise<{ message: string }> {
+  async deleteUser(id: string, requesterId: string, requesterRole: UserRole): Promise<{ message: string }> {
     try {
+      if (requesterRole !== UserRole.SUPER_ADMIN && requesterId !== id) {
+        throw new ForbiddenException('You can only delete your own account');
+      }
+
       const user = await this.usersRepository.findOne({ where: { id } });
 
       if (!user) {
@@ -264,7 +276,11 @@ export class UsersService {
 
       return { message: `User ${id} successfully removed.` };
     } catch (error) {
-      if (error instanceof NotFoundException || error instanceof BadRequestException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException ||
+        error instanceof ForbiddenException
+      ) {
         throw error;
       }
       this.logger.error('Error: Failed to delete account, please try again later', error);

@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -16,12 +17,13 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { RepairsService } from './repairs.service';
-import { CreateRepairDto, RepairResponseDto, UpdateRepairStatusDto } from './dto/repairs.dto';
+import { CreateRepairDto, RepairHistoryResponseDto, RepairResponseDto, UpdateRepairStatusDto } from './dto/repairs.dto';
 import { AuthGuard } from '../../guards/auth.guards';
 import { RoleGuard } from '../../guards/auth.guards.role';
 import { Roles, UserRole } from '../../decorator/role.decorator';
 import { RepairStatus, RepairUrgency } from './enum/repairs.enum';
 import { PaginatedRepairsDto, RepairSearchQueryDto } from './dto/paginate.rapair.dto';
+import { AuthRequest } from '../../common/auths/auth-request.interface';
 
 @ApiTags('Repairs')
 @Controller('repairs')
@@ -63,6 +65,18 @@ export class RepairsController {
     return await this.repairsService.getAllRepairs(searchQuery);
   }
 
+  @Get(':id/comments')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get repair tracking history (admin)' })
+  @ApiResponse({ status: 200, description: 'Repair history with admin comments', type: RepairHistoryResponseDto })
+  @ApiResponse({ status: 404, description: 'Repair not found' })
+  async getRepairHistory(@Param('id', ParseUUIDPipe) id: string): Promise<RepairHistoryResponseDto> {
+    return await this.repairsService.getRepairHistory(id);
+  }
+
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard, RoleGuard)
@@ -88,7 +102,8 @@ export class RepairsController {
   async updateRepairStatus(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateRepairStatusDto,
+    @Req() req: AuthRequest,
   ): Promise<RepairResponseDto> {
-    return await this.repairsService.updateRepairStatus(id, dto);
+    return await this.repairsService.updateRepairStatus(id, dto, req.user.sub);
   }
 }

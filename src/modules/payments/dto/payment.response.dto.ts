@@ -42,4 +42,4 @@ export class PaymentResponseDto {
   createdAt: Date;
 }
 
-export class MyPaymentResponseDto extends OmitType(PaymentResponseDto, ['userId', 'orderId'] as const) {}
+export class MyPaymentResponseDto extends OmitType(PaymentResponseDto, ['userId'] as const) {}

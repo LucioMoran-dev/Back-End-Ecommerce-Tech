@@ -14,7 +14,10 @@ export class CreateRefundDto {
   @Length(5, 100)
   reason: string;
 
-  @ApiProperty({ example: 'El producto llegó con daños visibles en el empaque y no funciona correctamente', description: 'Detailed description of the refund request' })
+  @ApiProperty({
+    example: 'El producto llegó con daños visibles en el empaque y no funciona correctamente',
+    description: 'Detailed description of the refund request',
+  })
   @IsNotEmpty()
   @IsString()
   @Length(10, 1000)
@@ -22,7 +25,10 @@ export class CreateRefundDto {
 }
 
 export class AdminRefundActionDto {
-  @ApiProperty({ example: 'Reembolso aprobado, se procesará en 5 días hábiles', description: 'Admin response/explanation' })
+  @ApiProperty({
+    example: 'Reembolso aprobado, se procesará en 5 días hábiles',
+    description: 'Admin response/explanation',
+  })
   @IsNotEmpty()
   @IsString()
   @Length(5, 1000)

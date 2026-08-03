@@ -9,6 +9,7 @@ import { AuthsModule } from '../auths/auths.module';
 import { Review } from '../review/entities/review.entity';
 import { N8nModule } from '../N8N/n8n.module';
 import { DiscountsModule } from '../discounts/discounts.module';
+import { FileModule } from '../file/file.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DiscountsModule } from '../discounts/discounts.module';
     forwardRef(() => AuthsModule),
     forwardRef(() => N8nModule),
     forwardRef(() => DiscountsModule),
+    forwardRef(() => FileModule),
   ],
   controllers: [ProductsController],
   providers: [ProductsService],

@@ -3,6 +3,7 @@ import { CartService } from '../cart/cart.service';
 import { OrdersService } from './orders.service';
 import { UsersService } from '../users/users.service';
 import { DiscountsService } from '../discounts/discounts.service';
+import { PromoCode } from '../discounts/entities/promo-code.entity';
 import { ICreateAddress, IAddress } from '../users/interfaces/user.interface';
 import { IOrder } from './interfaces/orders.interface';
 import { ICartDiscountPreview, ICartDiscountPreviewItem } from '../cart/interfaces/interface.cart';
@@ -68,7 +69,7 @@ export class CheckoutService {
 
     let promoValid = true;
     let promoErrors: string[] = [];
-    let validatedPromoCode = undefined;
+    let validatedPromoCode: PromoCode | undefined = undefined;
     let eligibleProductIds: string[] | undefined;
 
     if (promoCode) {

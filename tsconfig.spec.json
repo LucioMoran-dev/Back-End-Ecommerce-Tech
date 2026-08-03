@@ -1,9 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node"],
-    "rootDir": ".",
-    "noImplicitAny": false
+    "types": ["jest", "node", "express", "multer"],
+    "rootDir": "."
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
   "exclude": ["node_modules", "dist"]

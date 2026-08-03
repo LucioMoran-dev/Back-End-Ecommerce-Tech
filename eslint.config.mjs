@@ -28,9 +28,9 @@ export default tseslint.config(
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: 'script',
+      sourceType: 'module',
       parserOptions: {
-        project: ['./tsconfig.json'],
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -78,18 +78,7 @@ export default tseslint.config(
       'no-implied-eval': 'error',
       'no-new-func': 'error',
 
-      'prettier/prettier': [
-        'error',
-        {
-          endOfLine: 'lf',
-          singleQuote: true,
-          trailingComma: 'all',
-          printWidth: 120,
-          tabWidth: 2,
-          semi: true,
-          bracketSpacing: true,
-        },
-      ],
+      'prettier/prettier': 'error',
     },
   },
 

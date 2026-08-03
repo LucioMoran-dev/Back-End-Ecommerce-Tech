@@ -115,10 +115,11 @@ export class MercadoPagoService {
       this.logger.log(
         `Payment preference created: ${response.id} for ${orderId} - user: ${userId} Con la orden ${orderId ? `, OrderId: ${orderId}` : ''}`,
       );
+
       return {
-        preferenceId: response.id,
-        initPoint: response.init_point,
-        sandboxInitPoint: response.sandbox_init_point,
+        preferenceId: response.id!,
+        initPoint: response.init_point!,
+        sandboxInitPoint: response.sandbox_init_point!,
       };
     } catch (error) {
       const message = error instanceof Error ? error.message : JSON.stringify(error);

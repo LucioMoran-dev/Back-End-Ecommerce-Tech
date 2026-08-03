@@ -58,7 +58,20 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       color: 'Platinum Silver',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i5-1235U', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '15.6"', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '8GB DDR4', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '16GB DDR4', priceModifier: 100, stock: 6, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '512GB SSD NVMe', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD NVMe', priceModifier: 80, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Plateado', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -50, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '1 year', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 30, stock: 6, sortOrder: 2 },
+    ],
   },
   {
     name: 'HP Pavilion 14',
@@ -113,6 +126,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.RAM, name: '64GB DDR4', priceModifier: 500, stock: 2, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '1TB SSD NVMe', priceModifier: 0, stock: 3, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '2TB SSD NVMe', priceModifier: 300, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i9-11900H', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '15.6"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '16GB GDDR6 (RTX A5000)', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 5, sortOrder: 1 },
     ],
   },
   {
@@ -190,7 +207,21 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '2.0 kg',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i7-13700H', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '16"', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '8GB GDDR6 (RTX 4060)', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '16GB DDR5', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 250, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '512GB SSD', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD', priceModifier: 150, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -60, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 40, stock: 4, sortOrder: 2 },
+    ],
   },
   {
     name: 'ASUS ROG Strix G15',
@@ -247,7 +278,19 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '2.5 kg',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 7 7745HX', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '16"', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '8GB GDDR6 (RTX 4070)', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '16GB DDR5', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 300, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '512GB SSD', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD', priceModifier: 150, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -70, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'MSI Infinity X17',
@@ -339,6 +382,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.RAM, name: '16GB Unified Memory', priceModifier: 200, stock: 7, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '256GB SSD', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '512GB SSD', priceModifier: 200, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.PROCESSOR, name: 'Apple M3', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '13.6"', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Plateado', priceModifier: 0, stock: 4, sortOrder: 3 },
     ],
   },
   // ==================== TABLETS Y PADS ====================
@@ -370,6 +418,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 150, stock: 8, sortOrder: 2 },
       { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.CONNECTIVITY, name: 'WiFi + Cellular', priceModifier: 200, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '10.9"', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2360x1640', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 6, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
     ],
   },
   {
@@ -393,7 +446,18 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '498g',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.STORAGE, name: '128GB', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 80, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11"', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1600', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi + Cellular', priceModifier: 150, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+    ],
   },
   {
     name: 'iPad Pro 12.9 M2',
@@ -422,6 +486,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.STORAGE, name: '128GB', priceModifier: 0, stock: 5, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 200, stock: 3, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '512GB', priceModifier: 400, stock: 2, sortOrder: 3 },
+      { type: TechVariantType.SCREEN_SIZE, name: '12.9"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2732x2048', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi + Cellular', priceModifier: 200, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Plateado', priceModifier: 0, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
     ],
   },
   {
@@ -445,7 +516,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '485g',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.STORAGE, name: '128GB', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 70, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11.5"', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1536', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+    ],
   },
 
   // ==================== NETBOOKS ====================
@@ -470,7 +550,18 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '1.0 kg',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Celeron N4020', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11.6"', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '4GB LPDDR4', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '8GB LPDDR4', priceModifier: 40, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '64GB eMMC', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '128GB eMMC', priceModifier: 30, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '1 year', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 25, stock: 10, sortOrder: 2 },
+    ],
   },
   {
     name: 'HP Stream 11',
@@ -493,7 +584,18 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '1.04 kg',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Celeron N4120', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11.6"', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '4GB LPDDR4', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '8GB LPDDR4', priceModifier: 40, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '64GB eMMC', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '128GB eMMC', priceModifier: 30, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 16, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Azul', priceModifier: 0, stock: 14, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '1 year', priceModifier: 0, stock: 30, sortOrder: 1 },
+    ],
   },
   {
     name: 'Acer Chromebook 311',
@@ -516,7 +618,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '1.05 kg',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'MediaTek MT8183C', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11.6"', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '4GB LPDDR4X', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '32GB eMMC', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '64GB eMMC', priceModifier: 25, stock: 14, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 8, sortOrder: 2 },
+    ],
   },
   {
     name: 'MSI GS66 Stealth',
@@ -640,7 +751,17 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'Small Form Factor',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i5-11500', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '8GB DDR4', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '16GB DDR4', priceModifier: 90, stock: 6, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '512GB SSD', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD', priceModifier: 80, stock: 5, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -80, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 10, sortOrder: 1 },
+    ],
   },
   {
     name: 'HP EliteDesk 800 G9',
@@ -663,7 +784,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'Mini Tower',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i7-12700', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '16GB DDR5', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 160, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '512GB SSD NVMe', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD NVMe', priceModifier: 100, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'Lenovo ThinkCentre M90q',
@@ -712,7 +842,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       responseTime: '1ms',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '165Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -40, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'ASUS ROG Swift PG279QM',
@@ -737,7 +876,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gsync: true,
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'AOC C27G2Z',
@@ -761,7 +908,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       curvature: '1500R',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '1920x1080', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+    ],
   },
 
   // ==================== MOUSES (NUEVA CATEGORÍA) ====================
@@ -788,7 +943,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       cableType: 'Cableado USB',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 35, sortOrder: 1 },
+    ],
   },
   {
     name: 'Razer DeathAdder V3 Pro',
@@ -813,7 +973,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '63g',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+    ],
   },
   {
     name: 'SteelSeries Rival 3',
@@ -836,7 +1002,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       cableType: 'Cableado USB',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 45, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 45, sortOrder: 1 },
+    ],
   },
   {
     name: 'Logitech MX Master 3S',
@@ -862,8 +1034,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     },
     hasVariants: true,
     variants: [
-      { type: TechVariantType.COLOR, name: 'Grafito', priceModifier: 0, stock: 20, sortOrder: 1 },
-      { type: TechVariantType.COLOR, name: 'Gris Pálido', priceModifier: 0, stock: 10, sortOrder: 2 },
+      // Este producto tenia dos grises (Grafito + Gris Palido) que ahora colapsan al unico
+      // 'Gris' de la paleta. Fusiono en una sola variante y sumo el stock (20 + 10 = 30)
+      // para no perder inventario al unificar.
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 30, sortOrder: 1 },
     ],
   },
 
@@ -887,7 +1064,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       nonSlipBase: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 50, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 50, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 5, sortOrder: 2 },
+    ],
   },
   {
     name: 'Logitech C920 HD Pro',
@@ -911,7 +1093,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       autoFocus: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 40, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 40, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 40, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 5, sortOrder: 2 },
+    ],
   },
   {
     name: 'HyperX Cloud II',
@@ -938,7 +1126,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     hasVariants: true,
     variants: [
       { type: TechVariantType.COLOR, name: 'Rojo', priceModifier: 0, stock: 20, sortOrder: 1 },
-      { type: TechVariantType.COLOR, name: 'Gun Metal', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -962,7 +1153,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       wristRest: 'Magnético extraíble',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+    ],
   },
   {
     name: 'Elgato Wave:3',
@@ -985,7 +1182,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       mountType: 'Escritorio',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Blue Yeti USB',
@@ -1011,8 +1214,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     hasVariants: true,
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
-      { type: TechVariantType.COLOR, name: 'Plata', priceModifier: 0, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Plateado', priceModifier: 0, stock: 10, sortOrder: 2 },
       { type: TechVariantType.COLOR, name: 'Azul', priceModifier: 10, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
 
@@ -1046,6 +1252,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'Cherry MX Red', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Cherry MX Speed', priceModifier: 20, stock: 7, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'Cherry MX Brown', priceModifier: 0, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
   {
@@ -1076,6 +1286,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.SWITCH, name: 'GL Tactile', priceModifier: 0, stock: 8, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'GL Linear', priceModifier: 0, stock: 7, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
   {
@@ -1106,6 +1321,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'Gateron G Pro Red', priceModifier: 0, stock: 12, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Gateron G Pro Brown', priceModifier: 0, stock: 10, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'Gateron G Pro Blue', priceModifier: 0, stock: 6, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 28, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -1132,7 +1352,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       mediaKeys: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Ducky One 3 Matcha',
@@ -1161,6 +1387,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'Cherry MX Red', priceModifier: 0, stock: 8, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Cherry MX Brown', priceModifier: 0, stock: 7, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'Cherry MX Blue', priceModifier: 0, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Verde', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
   {
@@ -1189,6 +1419,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'HyperX Red (Linear)', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'HyperX Aqua (Tactile)', priceModifier: 0, stock: 12, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'HyperX Blue (Clicky)', priceModifier: 0, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 32, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 32, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 32, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -1213,7 +1447,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       batteryLife: '36 meses',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'ASUS ROG Falchion',
@@ -1242,6 +1482,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.SWITCH, name: 'Cherry MX Red', priceModifier: 0, stock: 7, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Cherry MX Blue', priceModifier: 0, stock: 7, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
 
@@ -1268,7 +1512,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tdp: '65W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 5 5600X', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 8, sortOrder: 2 },
+    ],
   },
   {
     name: 'NVIDIA GeForce RTX 4060 Ti',
@@ -1297,6 +1548,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.VRAM, name: 'RTX 4060 Ti 8GB', priceModifier: 0, stock: 12, sortOrder: 1 },
       { type: TechVariantType.VRAM, name: 'RTX 4060 Ti 16GB', priceModifier: 150, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 20, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -1325,6 +1580,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.RAM, name: '16GB (2x8GB)', priceModifier: 0, stock: 25, sortOrder: 1 },
       { type: TechVariantType.RAM, name: '32GB (2x16GB)', priceModifier: 80, stock: 15, sortOrder: 2 },
       { type: TechVariantType.RAM, name: '64GB (2x32GB)', priceModifier: 240, stock: 8, sortOrder: 3 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: 'Lifetime', priceModifier: 0, stock: 25, sortOrder: 1 },
     ],
   },
   {
@@ -1352,6 +1610,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.STORAGE, name: '500GB', priceModifier: 0, stock: 25, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '1TB', priceModifier: 50, stock: 20, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '2TB', priceModifier: 170, stock: 10, sortOrder: 3 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '5 years', priceModifier: 0, stock: 25, sortOrder: 1 },
     ],
   },
   {
@@ -1377,7 +1638,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'ATX',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 4, sortOrder: 2 },
+    ],
   },
   {
     name: 'Corsair RM750x',
@@ -1399,7 +1666,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       fanSize: '135mm',
       warranty: '10 años',
     },
-    hasVariants: false,
+
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '10 years', priceModifier: 0, stock: 20, sortOrder: 1 },
+    ],
   },
   {
     name: 'NZXT H510',
@@ -1426,7 +1699,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 10, stock: 10, sortOrder: 2 },
-      { type: TechVariantType.COLOR, name: 'Negro/Rojo', priceModifier: 15, stock: 8, sortOrder: 3 },
+      { type: TechVariantType.COLOR, name: 'Rojo', priceModifier: 15, stock: 8, sortOrder: 3 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 20, stock: 6, sortOrder: 2 },
     ],
   },
   {
@@ -1452,7 +1729,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tdp: '125W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i7-13700K', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 5, sortOrder: 2 },
+    ],
   },
   {
     name: 'AMD Radeon RX 7800 XT',
@@ -1477,7 +1761,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       outputs: ['HDMI 2.1', 'DisplayPort 2.1 x3'],
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '16GB GDDR6', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 14, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 20, stock: 5, sortOrder: 2 },
+    ],
   },
 
   // ==================== CUSTOM BUILDINGS ====================
@@ -1512,6 +1803,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.RAM, name: '32GB DDR4', priceModifier: 150, stock: 2, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '1TB SSD NVMe', priceModifier: 0, stock: 3, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '2TB SSD NVMe', priceModifier: 120, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 5 5600X', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '8GB GDDR6 (RTX 4060)', priceModifier: 0, stock: 5, sortOrder: 1 },
     ],
   },
   {
@@ -1569,7 +1862,17 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       os: 'Windows 11 Pro',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i9-13900K', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '16GB GDDR6X (RTX 4080)', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '128GB DDR5', priceModifier: 550, stock: 1, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe Gen4', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '4TB SSD NVMe Gen4', priceModifier: 400, stock: 1, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 3, sortOrder: 1 },
+    ],
   },
   {
     name: 'PC Streaming Elite',
@@ -1595,7 +1898,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       os: 'Windows 11 Home',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 9 7900X', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '12GB GDDR6X (RTX 4070)', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 280, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD NVMe + 2TB HDD', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe + 4TB HDD', priceModifier: 220, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
 
   // ==================== Networking ====================
@@ -1619,7 +1931,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       ports: '4x Gigabit LAN',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi 6', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 18, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'ASUS RT-AX86U',
@@ -1643,7 +1961,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gamingFeatures: 'Game Boost, VPN Fusion',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi 6', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: '2.5GbE', priceModifier: 0, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 12, sortOrder: 3 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Netgear Nighthawk M6',
@@ -1666,7 +1991,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       connectedDevices: '32',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi 6', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: '5G', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== Printers ====================
@@ -1690,7 +2021,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       duplexPrint: true,
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Epson EcoTank L3250',
@@ -1714,7 +2052,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tankSystem: 'Recargable de alta capacidad',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 20, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Canon imageCLASS MF445dw',
@@ -1738,7 +2083,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       adfCapacity: '50 hojas',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 10, sortOrder: 3 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== ROCCAT ====================
@@ -1770,6 +2123,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 12, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
     ],
   },
   {
@@ -1794,7 +2149,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       frameType: 'Aluminio anodizado',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== MSI (Monitors y pc-parts) ====================
@@ -1822,7 +2183,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gsync: true,
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '165Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -40, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'MSI MAG B650 TOMAHAWK WIFI',
@@ -1847,7 +2217,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'ATX',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 4, sortOrder: 2 },
+    ],
   },
 
   // ==================== Razer ====================
@@ -1879,6 +2255,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
     ],
   },
   {
@@ -1904,7 +2282,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       adjustableActuation: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== Thermaltake ====================
@@ -1930,7 +2314,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       rgbIncluded: '3x Riing Plus 12 RGB',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'Thermaltake Toughpower GF3 1000W',
@@ -1955,7 +2345,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       fanSize: '140mm',
       warranty: '10 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '10 years', priceModifier: 0, stock: 15, sortOrder: 1 },
+    ],
   },
 
   // ==================== ADATA ====================
@@ -1985,6 +2380,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.RAM, name: '16GB (2x8GB)', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.RAM, name: '32GB (2x16GB)', priceModifier: 70, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: 'Lifetime', priceModifier: 0, stock: 25, sortOrder: 1 },
     ],
   },
   {
@@ -2012,6 +2410,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.STORAGE, name: '512GB', priceModifier: 0, stock: 18, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '1TB', priceModifier: 40, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '5 years', priceModifier: 0, stock: 30, sortOrder: 1 },
     ],
   },
 
@@ -2040,7 +2441,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gsync: true,
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '165Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'HP Z2 Tower G9 Workstation',
@@ -2064,7 +2473,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       isvCertified: true,
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i7-13700', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '12GB GDDR6 (RTX A2000)', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5 ECC', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5 ECC', priceModifier: 400, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD NVMe', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe', priceModifier: 250, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
 
   // ==================== GIGABYTE ====================
@@ -2092,7 +2510,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       lcdDisplay: 'LCD Edge View',
       warranty: '4 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '12GB GDDR6X', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'GIGABYTE M27Q X',
@@ -2118,7 +2542,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       kvm: 'KVM integrado',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -40, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== Intel ====================
@@ -2145,7 +2578,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       integratedGraphics: 'Intel UHD 770',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i5-14600K', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 6, sortOrder: 2 },
+    ],
   },
   {
     name: 'Intel Core i9-14900K',
@@ -2171,7 +2611,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       integratedGraphics: 'Intel UHD 770',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i9-14900K', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== Dell ====================
@@ -2199,7 +2646,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       usbHub: 'USB-C 90W PD',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '60Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
   {
     name: 'Dell XPS 15 9530',
@@ -2257,7 +2712,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       usbHub: 'USB-C 96W PD',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '60Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'ASUS TUF Gaming B650-PLUS WIFI',
@@ -2282,7 +2745,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'ATX',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 4, sortOrder: 2 },
+    ],
   },
 
   // ==================== AMD ====================
@@ -2310,7 +2779,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tdp: '120W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 7 7800X3D', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 4, sortOrder: 2 },
+    ],
   },
   {
     name: 'AMD Radeon RX 7900 XTX',
@@ -2335,7 +2811,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       outputs: ['HDMI 2.1', 'DisplayPort 2.1 x2', 'USB-C'],
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '24GB GDDR6', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 20, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== Acer ====================
@@ -2363,7 +2846,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gsync: true,
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '26.5"', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -40, stock: 1, sortOrder: 2 },
+    ],
   },
   {
     name: 'Acer Nitro 5 AN515-58',
@@ -2420,7 +2912,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       outputs: ['HDMI 2.1a', 'DisplayPort 1.4a x3'],
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '16GB GDDR6X', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'NVIDIA GeForce RTX 4090',
@@ -2445,7 +2944,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       outputs: ['HDMI 2.1a', 'DisplayPort 1.4a x3'],
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '24GB GDDR6X', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 1, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== Logitech ====================
@@ -2477,6 +2983,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 12, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
     ],
   },
   {
@@ -2506,14 +3014,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.SWITCH, name: 'GX Brown Tactile', priceModifier: 0, stock: 8, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'GX Red Linear', priceModifier: 0, stock: 7, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
-  // ============================================================
-  // PRODUCTOS ADICIONALES — agregar al array PRODUCTS_SEED
-  // ============================================================
-  // Importaciones ya presentes en el archivo original:
-  // import { LaptopSpecs, MouseSpecs } from 'src/modules/products/interface/products.interface';
-  // import { TechVariantType } from '../modules/products/enum/product.enum';
 
   // ==================== Laptops (nuevos) ====================
   {
@@ -2786,6 +3293,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.RAM, name: '32GB', priceModifier: 300, stock: 4, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '256GB SSD', priceModifier: 0, stock: 6, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '512GB SSD', priceModifier: 250, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '13"', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2880x1920', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Plateado', priceModifier: 0, stock: 6, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
     ],
   },
   {
@@ -2814,6 +3326,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.STORAGE, name: '128GB', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 100, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '11"', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2880x1800', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
     ],
   },
   {
@@ -2838,7 +3355,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '580g',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.STORAGE, name: '256GB', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '512GB', priceModifier: 120, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.SCREEN_SIZE, name: '13.2"', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2880x1920 OLED', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Verde', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 9, sortOrder: 1 },
+    ],
   },
 
   // ==================== Netbooks (nuevos) ====================
@@ -2863,7 +3389,17 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '1.38 kg',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Celeron N4500', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '14"', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '4GB DDR4', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '8GB DDR4', priceModifier: 45, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '128GB eMMC', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '256GB SSD', priceModifier: 40, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Gris', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '1 year', priceModifier: 0, stock: 30, sortOrder: 1 },
+    ],
   },
   {
     name: 'Samsung Chromebook Go',
@@ -2886,7 +3422,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '1.48 kg',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Celeron N4500', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.SCREEN_SIZE, name: '14"', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '4GB LPDDR4X', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '32GB eMMC', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '64GB eMMC', priceModifier: 25, stock: 18, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 35, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 10, sortOrder: 2 },
+    ],
   },
 
   // ==================== Desktop-PCs (nuevos) ====================
@@ -2943,7 +3488,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'Tower',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i9-13900KF', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '16GB GDDR6X (RTX 4080)', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 300, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '4TB SSD NVMe', priceModifier: 350, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+    ],
   },
   {
     name: 'MSI MEG Infinite X2',
@@ -2968,7 +3522,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       cooling: 'Refrigeración líquida 360mm AIO',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '24GB GDDR6X (RTX 4090)', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '128GB DDR5', priceModifier: 600, stock: 1, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe Gen4', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '4TB SSD NVMe Gen4', priceModifier: 400, stock: 1, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 120, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'Lenovo ThinkCentre Neo 50s',
@@ -3023,7 +3586,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       gsync: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '26.5"', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
   {
     name: 'BenQ PD2706U',
@@ -3049,7 +3620,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       usbHub: 'Thunderbolt 4 / USB-C 90W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '60Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+    ],
   },
   {
     name: 'ViewSonic VP2785-4K',
@@ -3074,7 +3653,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       usbHub: 'USB-C 60W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '60Hz', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
   {
     name: 'Samsung Odyssey Neo G9 49"',
@@ -3100,7 +3687,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       curvature: '1000R',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '49"', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '5120x1440 DQHD', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '240Hz', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 3, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 4, sortOrder: 1 },
+    ],
   },
   {
     name: 'LG 32UN880 Ergo 4K',
@@ -3125,7 +3720,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       usbHub: 'USB-C 60W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '31.5"', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '3840x2160', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '60Hz', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB-C', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 6, sortOrder: 1 },
+    ],
   },
   {
     name: 'AOC Q27G3XMN',
@@ -3150,7 +3753,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       hdr: 'HDR600',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SCREEN_SIZE, name: '27"', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RESOLUTION, name: '2560x1440', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.REFRESH_RATE, name: '180Hz', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'DisplayPort', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -40, stock: 2, sortOrder: 2 },
+    ],
   },
 
   // ==================== Mouses (nuevos) ====================
@@ -3176,7 +3788,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '73g',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 22, sortOrder: 1 },
+    ],
   },
   {
     name: 'Corsair M75 AIR Wireless',
@@ -3206,6 +3823,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
     ],
   },
   {
@@ -3234,6 +3853,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
     ],
   },
   {
@@ -3258,7 +3879,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       weight: '68g',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 6, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+    ],
   },
   {
     name: 'Logitech G305 LIGHTSPEED',
@@ -3287,6 +3914,8 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 20, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 12, sortOrder: 2 },
       { type: TechVariantType.COLOR, name: 'Azul', priceModifier: 0, stock: 8, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 40, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 40, sortOrder: 1 },
     ],
   },
 
@@ -3314,7 +3943,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       adjustableActuation: '0.1mm - 4.0mm',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Akko 5075B Plus',
@@ -3343,6 +3978,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'Akko CS Jelly Pink', priceModifier: 0, stock: 8, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Akko CS Ocean Blue', priceModifier: 0, stock: 7, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'Akko CS Radiant Red', priceModifier: 0, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 20, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
     ],
   },
   {
@@ -3372,6 +4012,11 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.SWITCH, name: 'Gateron Red', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.SWITCH, name: 'Gateron Brown', priceModifier: 0, stock: 10, sortOrder: 2 },
       { type: TechVariantType.SWITCH, name: 'Gateron Blue', priceModifier: 0, stock: 8, sortOrder: 3 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 28, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -3397,7 +4042,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       mediaWheel: 'Rueda multipropósito',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SWITCH, name: 'Razer Yellow', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 10, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Corsair K65 Plus Wireless',
@@ -3421,7 +4074,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       batteryLife: '200 horas',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.SWITCH, name: 'Corsair MLX Red', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 18, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== Accessories (nuevos) ====================
@@ -3446,7 +4107,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       integration: 'OBS, Twitch, YouTube, Spotify y más',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Logitech Brio 4K Ultra HD',
@@ -3470,7 +4137,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       connectivity: 'USB-A / USB-C',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+    ],
   },
   {
     name: 'SteelSeries Arctis Nova Pro Wireless',
@@ -3495,7 +4168,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       connectivity: '2.4GHz + Bluetooth 5.0',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Bluetooth', priceModifier: 0, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Razer Seiren V3 Chroma',
@@ -3519,7 +4199,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       muteButton: true,
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Corsair HS80 RGB Wireless',
@@ -3547,6 +4233,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 13, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Wireless', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 28, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
     ],
   },
   {
@@ -3571,7 +4260,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       connectivity: 'USB-C',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== PC-Parts (nuevos) ====================
@@ -3599,7 +4294,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tdp: '170W',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 9 7950X', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'NVIDIA GeForce RTX 4070 SUPER',
@@ -3624,7 +4326,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       outputs: ['HDMI 2.1a', 'DisplayPort 1.4a x3'],
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.VRAM, name: '12GB GDDR6X', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Noctua NH-D15',
@@ -3648,7 +4357,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       tdpSupport: '250W+',
       warranty: '6 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 20, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '6 years', priceModifier: 0, stock: 20, sortOrder: 1 },
+    ],
   },
   {
     name: 'Corsair iCUE H150i Elite LCD XT',
@@ -3671,7 +4385,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       socketSupport: 'LGA1700 / AM5 / AM4',
       warranty: '5 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '5 years', priceModifier: 0, stock: 12, sortOrder: 1 },
+    ],
   },
   {
     name: 'G.Skill Trident Z5 RGB DDR5',
@@ -3699,6 +4418,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.RAM, name: '32GB (2x16GB)', priceModifier: 0, stock: 10, sortOrder: 1 },
       { type: TechVariantType.RAM, name: '64GB (2x32GB)', priceModifier: 120, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: 'Lifetime', priceModifier: 0, stock: 18, sortOrder: 1 },
     ],
   },
   {
@@ -3726,6 +4448,9 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       { type: TechVariantType.STORAGE, name: '1TB', priceModifier: 0, stock: 14, sortOrder: 1 },
       { type: TechVariantType.STORAGE, name: '2TB', priceModifier: 80, stock: 8, sortOrder: 2 },
       { type: TechVariantType.STORAGE, name: '4TB', priceModifier: 230, stock: 5, sortOrder: 3 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 22, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '5 years', priceModifier: 0, stock: 22, sortOrder: 1 },
     ],
   },
   {
@@ -3749,7 +4474,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: '3.5"',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.STORAGE, name: '4TB', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 30, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 0, stock: 30, sortOrder: 1 },
+    ],
   },
   {
     name: 'ASUS ROG CROSSHAIR X670E HERO',
@@ -3776,7 +4507,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'ATX',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 7, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '4 years', priceModifier: 20, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'Seasonic Prime TX-1000',
@@ -3799,7 +4536,12 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       zeroRPM: true,
       warranty: '12 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 10, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '12 years', priceModifier: 0, stock: 10, sortOrder: 1 },
+    ],
   },
   {
     name: 'Lian Li O11 Dynamic EVO XL',
@@ -3827,6 +4569,10 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
     variants: [
       { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
       { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 10, stock: 4, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '1 year', priceModifier: 0, stock: 9, sortOrder: 1 },
+      { type: TechVariantType.WARRANTY, name: '2 years', priceModifier: 20, stock: 3, sortOrder: 2 },
     ],
   },
 
@@ -3853,7 +4599,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       ports: '2.5G WAN/LAN',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi 6E', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: '2.5GbE', priceModifier: 0, stock: 12, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 12, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Ubiquiti UniFi Dream Machine Pro',
@@ -3876,7 +4628,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       storage: 'HDD slot 3.5"',
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: '10GbE', priceModifier: 0, stock: 8, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 8, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 2, sortOrder: 2 },
+    ],
   },
   {
     name: 'Netgear ProSafe GS308E',
@@ -3899,7 +4657,13 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       formFactor: 'Desktop',
       warranty: '5 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Gigabit', priceModifier: 0, stock: 25, sortOrder: 2 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 25, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 4, sortOrder: 2 },
+    ],
   },
 
   // ==================== Printers (nuevos) ====================
@@ -3924,7 +4688,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       duplexPrint: true,
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 15, sortOrder: 2 },
+      { type: TechVariantType.CONNECTIVITY, name: 'Ethernet', priceModifier: 0, stock: 15, sortOrder: 3 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 15, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
   {
     name: 'Brother DCP-L2540DW',
@@ -3947,7 +4719,14 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       duplexPrint: true,
       warranty: '1 año',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.CONNECTIVITY, name: 'USB', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONNECTIVITY, name: 'WiFi', priceModifier: 0, stock: 18, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Blanco', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'New', priceModifier: 0, stock: 18, sortOrder: 1 },
+      { type: TechVariantType.CONDITION, name: 'Refurbished', priceModifier: -30, stock: 3, sortOrder: 2 },
+    ],
   },
 
   // ==================== Custom Builds (nuevos) ====================
@@ -4006,7 +4785,16 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       os: 'Windows 11 Home',
       warranty: '2 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'AMD Ryzen 7 7700X', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '16GB GDDR6 (RX 7800 XT)', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '32GB DDR5', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 260, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '1TB SSD NVMe Gen4', priceModifier: 0, stock: 5, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe Gen4', priceModifier: 150, stock: 3, sortOrder: 2 },
+      { type: TechVariantType.COLOR, name: 'Negro', priceModifier: 0, stock: 5, sortOrder: 1 },
+    ],
   },
   {
     name: 'PC Creator Studio 4K',
@@ -4033,6 +4821,15 @@ export const PRODUCTS_SEED: ProductSeedData[] = [
       os: 'Windows 11 Pro',
       warranty: '3 años',
     },
-    hasVariants: false,
+    hasVariants: true,
+    variants: [
+      { type: TechVariantType.PROCESSOR, name: 'Intel Core i7-14700K', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.VRAM, name: '12GB GDDR6X (RTX 4070 Ti)', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '64GB DDR5', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.RAM, name: '128GB DDR5', priceModifier: 520, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.STORAGE, name: '2TB SSD NVMe Gen4 + 4TB HDD', priceModifier: 0, stock: 4, sortOrder: 1 },
+      { type: TechVariantType.STORAGE, name: '4TB SSD Gen4 + 8TB HDD', priceModifier: 380, stock: 2, sortOrder: 2 },
+      { type: TechVariantType.WARRANTY, name: '3 years', priceModifier: 0, stock: 4, sortOrder: 1 },
+    ],
   },
 ];

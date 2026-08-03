@@ -19,11 +19,12 @@ export class ResetPasswordDto {
   @ApiProperty({
     example: 'NewPassword123!',
     description:
-      'New password. Must include an uppercase, a lowercase, a number, and a special character (!@#$%^&*), between 8 and 15 characters.',
+      'New password. Must include an uppercase, a lowercase, a number and a special character, between 8 and 15 characters.',
   })
   @IsString()
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/, {
-    message: 'Invalid password.',
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,15}$/, {
+    message:
+      'The new password must include an uppercase, a lowercase, a number and a special character, between 8 and 15 characters.',
   })
   newPassword: string;
 

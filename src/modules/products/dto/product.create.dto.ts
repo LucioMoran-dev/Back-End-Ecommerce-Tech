@@ -98,3 +98,20 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsBoolean()
   isActive?: boolean;
 }
+
+export class CreateProductWithImagesDto {
+  @ApiProperty({
+    type: 'string',
+    description: 'CreateProductDto serialized as a JSON string',
+    example:
+      '{"name":"Dell Inspiron 15","description":"Laptop ideal for work","brand":"Dell","basePrice":999.99,"baseStock":10,"category_name":"Laptops"}',
+  })
+  data: string;
+
+  @ApiPropertyOptional({
+    type: 'array',
+    items: { type: 'string', format: 'binary' },
+    description: 'Product images (jpeg/jpg/png/webp, max 5MB each)',
+  })
+  images?: unknown;
+}

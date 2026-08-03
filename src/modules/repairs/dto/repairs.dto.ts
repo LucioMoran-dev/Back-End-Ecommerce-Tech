@@ -100,3 +100,31 @@ export class RepairResponseDto {
   @ApiProperty({ description: 'Updated at' })
   updatedAt: Date;
 }
+
+export class RepairCommentResponseDto {
+  @ApiProperty({ description: 'Comment ID' })
+  id: string;
+
+  @ApiProperty({ description: 'Admin user ID' })
+  adminId: string;
+
+  @ApiProperty({ description: 'Admin name' })
+  adminName: string;
+
+  @ApiProperty({ description: 'Comment text' })
+  comment: string;
+
+  @ApiProperty({ enum: RepairStatus, description: 'Repair status at the time of the comment' })
+  statusSnapshot: RepairStatus;
+
+  @ApiProperty({ description: 'Comment creation date' })
+  createdAt: Date;
+}
+
+export class RepairHistoryResponseDto {
+  @ApiProperty({ type: RepairResponseDto, description: 'Repair details' })
+  repair: RepairResponseDto;
+
+  @ApiProperty({ type: [RepairCommentResponseDto], description: 'Admin comments history' })
+  comments: RepairCommentResponseDto[];
+}

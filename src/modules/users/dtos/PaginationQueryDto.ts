@@ -4,6 +4,15 @@ import { PaginationQueryDto } from '../../../common/pagination';
 
 export class UserSearchQueryDto extends PaginationQueryDto {
   @ApiProperty({
+    example: 'John Doe',
+    required: false,
+    description: 'Name (or partial name) to search for users',
+  })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiProperty({
     example: 'john_doe',
     required: false,
     description: 'Username to search for users',

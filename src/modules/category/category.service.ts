@@ -1,11 +1,13 @@
-import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 import { Category } from './entities/category.entity';
 import { PRODUCTS_SEED } from 'src/seeds/products.data';
 import { CategorySearchQueryDto } from './dto/PaginationQueryDto';
-import { ICreateCategory } from './interface/category.interface';
+import { ICreateCategory, IUpdateCategory } from './interface/category.interface';
 import { IPaginatedResult } from '../../common/pagination';
 
 @Injectable()
@@ -13,6 +15,9 @@ export class CategoriesService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepo: Repository<Category>,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async preloadCategories(): Promise<{ message: string }> {
@@ -35,6 +40,7 @@ export class CategoriesService {
 
     if (categoriesToInsert.length > 0) {
       await this.categoryRepo.save(categoriesToInsert);
+      await this.cacheManager.del('/categories');
       return { message: 'Categories seeded successfully' };
     }
 
@@ -55,15 +61,19 @@ export class CategoriesService {
       });
     }
 
-    queryBuilder
-      .orderBy('category.category_name', 'ASC')
-      .addOrderBy('products.featured', 'DESC')
-      .addOrderBy('products.createdAt', 'DESC');
+    queryBuilder.orderBy('category.category_name', 'ASC');
 
     const [categories, total] = await queryBuilder
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
+
+    for (const cat of categories) {
+      cat.products?.sort((a, b) => {
+        if (a.featured !== b.featured) return a.featured ? -1 : 1;
+        return b.createdAt.getTime() - a.createdAt.getTime();
+      });
+    }
 
     return {
       items: categories,
@@ -84,8 +94,11 @@ export class CategoriesService {
 
     const category = this.categoryRepo.create({
       category_name: dto.category_name,
+      description: dto.description ?? null,
     });
-    return await this.categoryRepo.save(category);
+    const savedCategory = await this.categoryRepo.save(category);
+    await this.cacheManager.del('/categories');
+    return savedCategory;
   }
 
   async getByIdCategory(id: string): Promise<Category> {
@@ -94,5 +107,46 @@ export class CategoriesService {
       throw new NotFoundException(`Category with ID ${id} not found`);
     }
     return exist;
+  }
+
+  async updateCategory(id: string, dto: IUpdateCategory): Promise<Category> {
+    const category = await this.categoryRepo.findOne({ where: { id } });
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+
+    if (dto.category_name && dto.category_name !== category.category_name) {
+      const exists = await this.findByName(dto.category_name);
+      if (exists) {
+        throw new HttpException(`Category "${dto.category_name}" already exists`, HttpStatus.CONFLICT);
+      }
+      category.category_name = dto.category_name;
+    }
+
+    if (dto.description !== undefined) {
+      category.description = dto.description ?? null;
+    }
+
+    const updatedCategory = await this.categoryRepo.save(category);
+    await this.cacheManager.del('/categories');
+    return updatedCategory;
+  }
+
+  async deleteCategory(id: string): Promise<{ id: string; message: string }> {
+    const category = await this.categoryRepo.findOne({ where: { id }, relations: ['products'] });
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+
+    if (category.products && category.products.length > 0) {
+      throw new HttpException(
+        `Cannot delete category "${category.category_name}" because it has ${category.products.length} associated product(s)`,
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    await this.categoryRepo.remove(category);
+    await this.cacheManager.del('/categories');
+    return { id, message: `Category ${id} successfully removed.` };
   }
 }

@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class ShippingAddressDto {
   @ApiProperty({ example: 'Home' })
@@ -37,23 +36,6 @@ export class ShippingAddressDto {
   @IsOptional()
   @IsBoolean()
   isDefault?: boolean;
-}
-
-export class UpdateShippingAddressDto {
-  @ApiProperty({ type: ShippingAddressDto })
-  @IsObject()
-  @ValidateNested()
-  @Type(() => ShippingAddressDto)
-  shippingAddress: ShippingAddressDto;
-
-  @ApiPropertyOptional({
-    example: 'Address change requested by the client',
-    description: 'Reason for address change',
-  })
-  @IsOptional()
-  @IsString()
-  @Length(0, 200)
-  reason?: string;
 }
 
 export class UserSummaryDto {

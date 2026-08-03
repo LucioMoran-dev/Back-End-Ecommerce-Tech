@@ -67,7 +67,7 @@ export interface IPaymentStatus {
   status_detail: string;
   transaction_amount: number;
   currency_id: string;
-  date_approved: string;
+  date_approved: string | null;
 }
 
 export interface IPaymentResponse {
@@ -95,5 +95,6 @@ export interface IMyPaymentResponse {
   paymentTypeId: string;
   paymentMethodId: string;
   dateApproved: Date | null;
+  orderId: string;
   createdAt: Date;
 }

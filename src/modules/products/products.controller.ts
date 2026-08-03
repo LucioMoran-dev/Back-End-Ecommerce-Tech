@@ -18,21 +18,40 @@ import {
   DefaultValuePipe,
   Sse,
   MessageEvent,
+  BadRequestException,
+  UploadedFiles,
+  Req,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { OptionalAuthGuard } from '../../guards/optional-auth.guard';
+import { OptionalAuthCacheInterceptor } from '../../common/interceptors/optional-auth-cache.interceptor';
+import { OptionalAuthRequest } from '../../common/auths/auth-request.interface';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ProductsService } from './products.service';
 import { AuthGuard } from '../../guards/auth.guards';
 import { RoleGuard } from '../../guards/auth.guards.role';
 import { Roles, UserRole } from '../../decorator/role.decorator';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+  ApiParam,
+} from '@nestjs/swagger';
 import { ProductsSearchQueryDto } from './dto/PaginationQueryDto';
 import { PaginatedProductsDto } from './dto/paginated-products.dto';
 import { ProductVariant } from './entities/products_variant.entity';
 import { Observable } from 'rxjs';
 import { Throttle } from '@nestjs/throttler';
 import { ResponseProductDto } from './dto/product.response.dto';
-import { CreateProductDto, UpdateProductDto } from './dto/product.create.dto';
+import { CreateProductDto, CreateProductWithImagesDto, UpdateProductDto } from './dto/product.create.dto';
 import { CreateVariantDto } from './dto/product.variant.dto';
+import { ALLOWED_IMAGE_MIMES, MAX_IMAGE_SIZE, MAX_PRODUCT_IMAGES } from '../../common/constants/business.constants';
 
 @ApiTags('Products')
 @Controller('products')
@@ -41,10 +60,13 @@ export class ProductsController {
 
   @Get()
   @Throttle({ default: { limit: 300, ttl: 60000 } })
-  @UseInterceptors(CacheInterceptor)
+  @UseGuards(OptionalAuthGuard)
+  @UseInterceptors(OptionalAuthCacheInterceptor)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get paginated products with catalog filters',
-    description: 'Returns a paginated list of active products with multiple combinable filters for the catalog',
+    description:
+      'Returns a paginated list of products. Public callers only see active products; an admin token also allows seeing inactive ones (isActive=false, or omit isActive to see all).',
   })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1, description: 'Page number' })
   @ApiQuery({
@@ -69,18 +91,19 @@ export class ProductsController {
     example: 'Dell',
   })
   @ApiQuery({
-    name: 'categoryId',
+    name: 'category_name',
     required: false,
     type: String,
-    description: 'Filter by category ID (UUID)',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Filter by category name (case-insensitive, exact match)',
+    example: 'Laptops',
   })
   @ApiQuery({
     name: 'color',
     required: false,
     type: String,
-    description: 'Filter by variant color (partial, case-insensitive)',
-    example: 'Black',
+    description:
+      'Filter by variant color (partial, case-insensitive). Palette: Negro, Azul, Rojo, Blanco, Gris, Verde, Plateado',
+    example: 'Negro',
   })
   @ApiQuery({
     name: 'minPrice',
@@ -114,7 +137,8 @@ export class ProductsController {
     name: 'variantType',
     required: false,
     type: String,
-    description: 'Filter by variant type (use with variantValue). Values: ram, storage, processor, vram, color, connectivity, screen_size, resolution, refresh_rate, warranty, condition, switch',
+    description:
+      'Filter by variant type (use with variantValue). Values: ram, storage, processor, vram, color, connectivity, screen_size, resolution, refresh_rate, warranty, condition, switch',
     example: 'ram',
   })
   @ApiQuery({
@@ -123,6 +147,13 @@ export class ProductsController {
     type: String,
     description: 'Filter by variant name/value (use with variantType)',
     example: '16GB',
+  })
+  @ApiQuery({
+    name: 'switch',
+    required: false,
+    type: String,
+    description: 'Filter by switch variant (partial, case-insensitive)',
+    example: 'Cherry MX',
   })
   @ApiQuery({
     name: 'inStock',
@@ -138,13 +169,24 @@ export class ProductsController {
     description: 'Filter only products with active discounts',
     example: true,
   })
+  @ApiQuery({
+    name: 'isActive',
+    required: false,
+    type: Boolean,
+    description: 'Filter by status: true = only active, false = only inactive, omitted = only active (default)',
+    example: true,
+  })
   @ApiResponse({
     status: 200,
     description: 'Products retrieved successfully',
     type: PaginatedProductsDto,
   })
-  async getProducts(@Query() searchQuery: ProductsSearchQueryDto): Promise<PaginatedProductsDto> {
-    const { items, ...meta } = await this.productsService.getProducts(searchQuery);
+  async getProducts(
+    @Query() searchQuery: ProductsSearchQueryDto,
+    @Req() req: OptionalAuthRequest,
+  ): Promise<PaginatedProductsDto> {
+    const isAdmin = req.user?.role === UserRole.ADMIN || req.user?.role === UserRole.SUPER_ADMIN;
+    const { items, ...meta } = await this.productsService.getProducts(searchQuery, isAdmin);
     return { ...meta, items };
   }
 
@@ -264,7 +306,7 @@ export class ProductsController {
     status: 404,
     description: 'Product not found',
   })
-  async getVariantsGrouped(@Param('id', ParseUUIDPipe) id: string) {
+  async getVariantsGrouped(@Param('id', ParseUUIDPipe) id: string): Promise<Record<string, ProductVariant[]>> {
     return await this.productsService.getVariantsGroupedByType(id);
   }
 
@@ -305,10 +347,13 @@ export class ProductsController {
 
   @Get(':id')
   @Throttle({ default: { limit: 300, ttl: 60000 } })
-  @UseInterceptors(CacheInterceptor)
+  @UseGuards(OptionalAuthGuard)
+  @UseInterceptors(OptionalAuthCacheInterceptor)
+  @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Get product by ID (Public)',
-    description: 'Returns a specific product with all its variants - No authentication required',
+    summary: 'Get product by ID',
+    description:
+      'Returns a specific product with its variants. Public callers only get active products (404 otherwise); an admin token also allows fetching inactive ones.',
   })
   @ApiParam({
     name: 'id',
@@ -325,8 +370,12 @@ export class ProductsController {
     status: 404,
     description: 'Product not found',
   })
-  async getProductById(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseProductDto> {
-    return await this.productsService.getProductById(id);
+  async getProductById(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Req() req: OptionalAuthRequest,
+  ): Promise<ResponseProductDto> {
+    const isAdmin = req.user?.role === UserRole.ADMIN || req.user?.role === UserRole.SUPER_ADMIN;
+    return await this.productsService.getProductById(id, isAdmin);
   }
 
   @Post()
@@ -361,6 +410,60 @@ export class ProductsController {
   )
   async createProduct(@Body() dto: CreateProductDto): Promise<ResponseProductDto> {
     return await this.productsService.createProduct(dto);
+  }
+
+  @Post('with-images')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Create a product together with its images (atomic)',
+    description:
+      'Creates a product and uploads its images in a single multipart request. Either everything is created or nothing is (Admin only).',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateProductWithImagesDto })
+  @ApiResponse({ status: 201, description: 'Product created successfully', type: ResponseProductDto })
+  @ApiResponse({ status: 400, description: 'Invalid data, invalid image or duplicate product' })
+  @ApiResponse({ status: 404, description: 'Category not found' })
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
+  @UseInterceptors(
+    FilesInterceptor('images', MAX_PRODUCT_IMAGES, {
+      limits: { fileSize: MAX_IMAGE_SIZE, files: MAX_PRODUCT_IMAGES },
+      fileFilter: (req, file, callback) => {
+        if (ALLOWED_IMAGE_MIMES.includes(file.mimetype)) {
+          callback(null, true);
+        } else {
+          callback(
+            new BadRequestException('Tipo de archivo no permitido. Solo se permiten: JPEG, JPG, PNG, WEBP'),
+            false,
+          );
+        }
+      },
+    }),
+  )
+  async createProductWithImages(
+    @Body('data') data: string,
+    @UploadedFiles() images: Express.Multer.File[] = [],
+  ): Promise<ResponseProductDto> {
+    if (!data) {
+      throw new BadRequestException('Missing "data" field with the product JSON');
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(data);
+    } catch {
+      throw new BadRequestException('"data" must be a valid JSON string');
+    }
+
+    const dto = plainToInstance(CreateProductDto, parsed);
+    const errors = await validate(dto as object, { whitelist: true, forbidNonWhitelisted: true });
+    if (errors.length > 0) {
+      throw new BadRequestException(errors.flatMap((e) => Object.values(e.constraints ?? {})));
+    }
+
+    return await this.productsService.createProductWithImages(dto, images ?? []);
   }
 
   @Put(':id')

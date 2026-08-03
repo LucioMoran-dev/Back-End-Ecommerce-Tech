@@ -1,6 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, ConflictException, Logger, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource, QueryFailedError } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { ProductDiscount } from './entities/product-discount.entity';
 import { PromoCode } from './entities/promo-code.entity';
 import { PromoCodeUsage } from './entities/promo-code-usage.entity';
@@ -38,6 +40,9 @@ export class DiscountsService {
     private readonly cartRepo: Repository<Cart>,
 
     private readonly dataSource: DataSource,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   private normalizeCode(code: string): string {
@@ -134,7 +139,9 @@ export class DiscountsService {
       product_id: dto.productId,
     });
 
-    return await this.productDiscountRepo.save(discount);
+    const savedDiscount = await this.productDiscountRepo.save(discount);
+    await this.cacheManager.del(`/products/${dto.productId}`);
+    return savedDiscount;
   }
 
   async updateProductDiscount(id: string, dto: UpdateProductDiscountDto): Promise<ProductDiscount> {
@@ -182,7 +189,9 @@ export class DiscountsService {
     discount.endDate = nextEndDate;
     discount.isActive = nextIsActive;
 
-    return await this.productDiscountRepo.save(discount);
+    const savedDiscount = await this.productDiscountRepo.save(discount);
+    await this.cacheManager.del(`/products/${discount.product.id}`);
+    return savedDiscount;
   }
 
   async deleteProductDiscount(id: string): Promise<{ message: string }> {
@@ -193,6 +202,7 @@ export class DiscountsService {
 
     discount.isActive = false;
     await this.productDiscountRepo.save(discount);
+    await this.cacheManager.del(`/products/${discount.product_id}`);
     return { message: 'Descuento desactivado exitosamente' };
   }
 
@@ -452,19 +462,21 @@ export class DiscountsService {
     let eligibleProductIds: string[] = [];
 
     if (promoCode.applicableProductIds && promoCode.applicableProductIds.length > 0) {
+      const applicableProductIds = promoCode.applicableProductIds;
       eligibleProductIds = cartItems
-        .filter((item) => promoCode.applicableProductIds.includes(item.product?.id || ''))
+        .filter((item) => applicableProductIds.includes(item.product?.id || ''))
         .map((item) => item.product?.id || '');
 
       if (eligibleProductIds.length === 0) {
         errors.push('Ningun producto de tu carrito es elegible para este codigo');
       }
     } else if (promoCode.applicableCategoryIds && promoCode.applicableCategoryIds.length > 0) {
+      const applicableCategoryIds = promoCode.applicableCategoryIds;
       eligibleProductIds = cartItems
         .filter((item) => {
           const categoryId = item.product?.category?.id;
           if (!categoryId) return false;
-          return promoCode.applicableCategoryIds.includes(categoryId);
+          return applicableCategoryIds.includes(categoryId);
         })
         .map((item) => item.product?.id || '');
 
@@ -531,7 +543,7 @@ export class DiscountsService {
           originalUnitPrice: originalPrice,
           discountAmount: codeDiscountAmount,
           discountSource: DiscountSource.CODE,
-          discountCode: promoCode.code,
+          discountCode: promoCode?.code ?? null,
         });
       }
     }

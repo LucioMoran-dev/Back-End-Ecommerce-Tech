@@ -1,12 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { Review } from './entities/review.entity';
 import { Product } from '../products/entities/products.entity';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../users/entities/users.entity';
 import { ICreateReview, IReviewResponseAdmin, IReviewResponsePublic } from './interface/IReview.interface';
+import { UserRole } from '../../decorator/role.decorator';
 import { ReviewSearchQueryDto } from './dto/PaginationQueryDto';
 import { IPaginatedResult, paginate } from '../../common/pagination';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class ReviewService {
@@ -18,6 +21,9 @@ export class ReviewService {
     @InjectRepository(Users)
     private readonly usersRepo: Repository<Users>,
     private readonly dataSource: DataSource,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   private toPublicResponse(review: Review): IReviewResponsePublic {
@@ -103,6 +109,8 @@ export class ReviewService {
       await queryRunner.manager.save(review);
       await queryRunner.commitTransaction();
 
+      await this.cacheManager.del(`/review/product/${dto.productId}/public`);
+
       return this.toPublicResponse(review);
     } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -176,21 +184,22 @@ export class ReviewService {
     return reviews.map((r) => this.toAdminResponse(r));
   }
 
-  async remove(id: string, userId: string): Promise<void> {
+  async remove(id: string, userId: string, requesterRole: UserRole): Promise<void> {
     const review = await this.reviewRepo.findOne({
       where: { id },
-      relations: ['user'],
+      relations: ['user', 'product'],
     });
 
     if (!review) {
       throw new NotFoundException(`Review with id ${id} not found`);
     }
 
-    if (review.user.id !== userId) {
+    if (requesterRole === UserRole.CLIENT && review.user.id !== userId) {
       throw new BadRequestException('You cannot delete reviews from other users');
     }
 
     await this.reviewRepo.delete(id);
+    await this.cacheManager.del(`/review/product/${review.product.id}/public`);
   }
 
   async findByProductPublic(productId: string, limit: number = 20): Promise<IReviewResponsePublic[]> {
@@ -205,6 +214,18 @@ export class ReviewService {
     });
 
     return reviews.map((r) => this.toPublicResponse(r));
+  }
+  async findByUser(
+    userId: string,
+    pagination: { page: number; limit: number },
+  ): Promise<IPaginatedResult<IReviewResponsePublic>> {
+    const result = await paginate(this.reviewRepo, pagination, {
+      where: { user: { id: userId } },
+      relations: ['user', 'product'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return { ...result, items: result.items.map((r) => this.toPublicResponse(r)) };
   }
 
   async canUserReview(
@@ -245,6 +266,7 @@ export class ReviewService {
 
     review.isVisible = !review.isVisible;
     await this.reviewRepo.save(review);
+    await this.cacheManager.del(`/review/product/${review.product.id}/public`);
 
     return this.toAdminResponse(review);
   }

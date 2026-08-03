@@ -1,26 +1,12 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RefundRequest } from './entities/refund-request.entity';
 import { RefundStatus } from './enum/refund.enum';
 import { MailQueueService } from '../mail/mail-queue_email.service';
 import { Order } from '../orders/entities/order.entity';
-import { OrderStatus } from '../orders/enum/order.enum';
-import { ICreateRefund, IAdminRefundAction } from './interface/refund.interface';
+import { ICreateRefund, IAdminRefundAction, REFUNDABLE_STATUSES } from './interface/refund.interface';
 import { PaginatedRefundsDto, RefundSearchQueryDto } from './dto/paginate.refund.dto';
-
-const REFUNDABLE_STATUSES = [
-  OrderStatus.PAID,
-  OrderStatus.PROCESSING,
-  OrderStatus.SHIPPED,
-  OrderStatus.DELIVERED,
-];
 
 @Injectable()
 export class RefundsService {
@@ -41,10 +27,7 @@ export class RefundsService {
       .trim();
   }
 
-  async createRefundRequest(
-    userId: string,
-    dto: ICreateRefund,
-  ): Promise<{ message: string; refundId: string }> {
+  async createRefundRequest(userId: string, dto: ICreateRefund): Promise<{ message: string; refundId: string }> {
     const order = await this.orderRepository.findOne({
       where: { id: dto.orderId },
       relations: ['user', 'orderDetail', 'payment'],
@@ -59,9 +42,7 @@ export class RefundsService {
     }
 
     if (!REFUNDABLE_STATUSES.includes(order.status)) {
-      throw new BadRequestException(
-        'El estado de la orden no permite solicitar un reembolso',
-      );
+      throw new BadRequestException('El estado de la orden no permite solicitar un reembolso');
     }
 
     const existingPending = await this.refundRepository.findOne({
@@ -69,9 +50,7 @@ export class RefundsService {
     });
 
     if (existingPending) {
-      throw new BadRequestException(
-        'Ya existe una solicitud de reembolso pendiente para esta orden',
-      );
+      throw new BadRequestException('Ya existe una solicitud de reembolso pendiente para esta orden');
     }
 
     const refund = this.refundRepository.create({
@@ -110,7 +89,7 @@ export class RefundsService {
   }
 
   async getUserRefunds(userId: string): Promise<RefundRequest[]> {
-    return this.refundRepository.find({
+    return await this.refundRepository.find({
       where: { userId },
       relations: ['order'],
       order: { createdAt: 'DESC' },
@@ -155,9 +134,7 @@ export class RefundsService {
     const refund = await this.getRefundById(id);
 
     if (refund.status !== RefundStatus.PENDING) {
-      throw new BadRequestException(
-        `No se puede aprobar una solicitud con estado "${refund.status}"`,
-      );
+      throw new BadRequestException(`No se puede aprobar una solicitud con estado "${refund.status}"`);
     }
 
     refund.status = RefundStatus.APPROVED;
@@ -186,9 +163,7 @@ export class RefundsService {
     const refund = await this.getRefundById(id);
 
     if (refund.status !== RefundStatus.PENDING) {
-      throw new BadRequestException(
-        `No se puede rechazar una solicitud con estado "${refund.status}"`,
-      );
+      throw new BadRequestException(`No se puede rechazar una solicitud con estado "${refund.status}"`);
     }
 
     refund.status = RefundStatus.REJECTED;

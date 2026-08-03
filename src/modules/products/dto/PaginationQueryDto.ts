@@ -1,7 +1,8 @@
-import { IsNumber, IsOptional, IsString, IsBoolean, IsUUID, Length, Min } from 'class-validator';
+import { IsNumber, IsOptional, IsString, IsBoolean, IsEnum, Length, Min } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../../../common/pagination';
+import { TechVariantType } from '../enum/product.enum';
 
 export class ProductsSearchQueryDto extends PaginationQueryDto {
   @ApiProperty({
@@ -65,18 +66,21 @@ export class ProductsSearchQueryDto extends PaginationQueryDto {
   brand?: string;
 
   @ApiProperty({
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    example: 'Laptops',
     required: false,
-    description: 'Filter by category ID (UUID)',
+    description: 'Filter by category name (case-insensitive, exact match)',
+    minLength: 2,
+    maxLength: 50,
   })
   @IsOptional()
-  @IsUUID()
-  categoryId?: string;
+  @Length(2, 50)
+  @IsString()
+  category_name?: string;
 
   @ApiProperty({
-    example: 'Black',
+    example: 'Negro',
     required: false,
-    description: 'Filter by product variant color',
+    description: 'Filter by product variant color (palette: Negro, Azul, Rojo, Blanco, Gris, Verde, Plateado)',
     minLength: 2,
     maxLength: 50,
   })
@@ -209,6 +213,40 @@ export class ProductsSearchQueryDto extends PaginationQueryDto {
   condition?: string;
 
   @ApiProperty({
+    example: 'Cherry MX',
+    required: false,
+    description: 'Filter by switch variant (partial, case-insensitive)',
+    minLength: 1,
+    maxLength: 50,
+  })
+  @IsOptional()
+  @Length(1, 50)
+  @IsString()
+  switch?: string;
+
+  @ApiProperty({
+    example: 'ram',
+    required: false,
+    enum: TechVariantType,
+    description: 'Generic variant filter: variant type (use together with variantValue)',
+  })
+  @IsOptional()
+  @IsEnum(TechVariantType)
+  variantType?: TechVariantType;
+
+  @ApiProperty({
+    example: '16GB',
+    required: false,
+    description: 'Generic variant filter: variant value (use together with variantType)',
+    minLength: 1,
+    maxLength: 50,
+  })
+  @IsOptional()
+  @Length(1, 50)
+  @IsString()
+  variantValue?: string;
+
+  @ApiProperty({
     example: true,
     required: false,
     description: 'Filter only products with available stock',
@@ -237,4 +275,19 @@ export class ProductsSearchQueryDto extends PaginationQueryDto {
     return typeof value === 'boolean' ? value : undefined;
   })
   discounted?: boolean;
+
+  @ApiProperty({
+    example: true,
+    required: false,
+    description: 'Filter by product status: true = only active, false = only inactive, omitted = only active (default)',
+    type: Boolean,
+  })
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return typeof value === 'boolean' ? value : undefined;
+  })
+  isActive?: boolean;
 }

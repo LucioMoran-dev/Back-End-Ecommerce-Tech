@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Readable } from 'stream';
 import { v2 as CloudinaryType } from 'cloudinary';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
-import { ProductsService } from '../products/products.service';
 import { File } from './entities/file.entity';
 import { ICloudinaryUploadResult } from './interface/file.interface';
 import { Product } from '../products/entities/products.entity';
@@ -14,8 +15,6 @@ export class FileService {
   private readonly logger = new Logger(FileService.name);
 
   constructor(
-    private readonly productService: ProductsService,
-
     @InjectRepository(File)
     private readonly fileRepo: Repository<File>,
 
@@ -24,6 +23,9 @@ export class FileService {
 
     @Inject('CLOUDINARY')
     private readonly cloudinary: typeof CloudinaryType,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async uploadImage(id: string, file: Express.Multer.File): Promise<{ id: string; url: string }> {
@@ -32,18 +34,10 @@ export class FileService {
       throw new BadRequestException('Invalid file');
     }
 
-    const productDto = await this.productService.getProductById(id);
-    if (!productDto) {
-      this.logger.warn(`Product with ID ${id} not found`);
-      throw new NotFoundException(`Product with ID ${id} does not exist`);
-    }
-
-    const product = await this.productRepo.findOne({
-      where: { id },
-      relations: ['files'],
-    });
+    const product = await this.productRepo.findOne({ where: { id } });
 
     if (!product) {
+      this.logger.warn(`Product with ID ${id} not found`);
       throw new NotFoundException(`Product with ID ${id} does not exist`);
     }
 
@@ -55,19 +49,47 @@ export class FileService {
     const image = this.fileRepo.create({
       url: result.secure_url,
       mimeType: file.mimetype,
-      product,
+      publicId: result.public_id,
+      product: { id } as Product,
     });
 
     await this.fileRepo.save(image);
 
     const updatedFiles = await this.fileRepo.find({
-      where: { product: { id: product.id } },
+      where: { product: { id } },
+      order: { createdAt: 'ASC' },
     });
 
-    product.imgUrls = updatedFiles.map((file) => file.url);
-    await this.productRepo.save(product);
+    await this.productRepo.update(id, { imgUrls: updatedFiles.map((f) => f.url) });
+    await this.cacheManager.del(`/products/${id}`);
 
     return { id: image.id, url: image.url };
+  }
+
+  async destroyFromCloudinary(publicId: string): Promise<void> {
+    if (!publicId) return;
+    try {
+      await this.cloudinary.uploader.destroy(publicId);
+      this.logger.log(`Cloudinary asset destroyed: ${publicId}`);
+    } catch (error) {
+      this.logger.error(`Failed to destroy Cloudinary asset ${publicId}`, error as Error);
+    }
+  }
+
+  async uploadManyToCloudinary(
+    files: Express.Multer.File[],
+  ): Promise<{ secureUrl: string; publicId: string; mimeType: string }[]> {
+    const uploaded: { secureUrl: string; publicId: string; mimeType: string }[] = [];
+    try {
+      for (const file of files) {
+        const result = await this.uploadToCloudinary(file);
+        uploaded.push({ secureUrl: result.secure_url, publicId: result.public_id, mimeType: file.mimetype });
+      }
+      return uploaded;
+    } catch (error) {
+      await Promise.all(uploaded.map((u) => this.destroyFromCloudinary(u.publicId)));
+      throw error;
+    }
   }
 
   private uploadToCloudinary(file: Express.Multer.File): Promise<ICloudinaryUploadResult> {
@@ -82,7 +104,7 @@ export class FileService {
             this.logger.error('Error uploading image to Cloudinary', error);
             return reject(new Error('Error uploading image to Cloudinary'));
           }
-          resolve(result as ICloudinaryUploadResult);
+          resolve(result);
         },
       );
 
@@ -108,6 +130,7 @@ export class FileService {
     }
 
     const productId = image.product.id;
+    const { publicId } = image;
 
     await this.fileRepo.remove(image);
 
@@ -118,6 +141,8 @@ export class FileService {
     await this.productRepo.update(productId, {
       imgUrls: remainingFiles.map((f) => f.url),
     });
+    await this.cacheManager.del(`/products/${productId}`);
+    await this.destroyFromCloudinary(publicId);
 
     return { message: 'Image deleted successfully' };
   }
