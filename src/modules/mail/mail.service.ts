@@ -39,6 +39,10 @@ export class MailService {
     });
   }
 
+  async verifyConnection(): Promise<boolean> {
+    return await this.transporter.verify();
+  }
+
   private enrichContext(context: Record<string, any>): Record<string, any> {
     return {
       ...context,
